@@ -1,0 +1,1468 @@
+\documentclass[a4paper]{elsarticle}
+
+%% ------------------------------------------------------------------
+%% Clean fonts and encoding.
+%% T1 fontenc + Latin Modern give correct glyphs and copy-clean text
+%% under pdfLaTeX; they are also honoured by XeLaTeX / LuaLaTeX.
+%% inputenc is deliberately NOT loaded: this source is pure 7-bit ASCII,
+%% and omitting inputenc keeps the file compatible with XeLaTeX/LuaLaTeX,
+%% which are natively UTF-8.
+%% ------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{lineno}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{amssymb,amsfonts,amsmath}
+\usepackage{color,soul}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{geometry}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage[export]{adjustbox}
+\usepackage{mathrsfs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{tabulary}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{placeins}
+\usepackage{setspace}
+\usepackage[authoryear,longnamesfirst]{natbib}
+\usepackage{refstyle}
+\usepackage{latexsym}
+
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\textwidth 15cm \textheight 23cm
+
+\begin{document}
+\begin{frontmatter}
+
+%% FIX: title hyphenation and capitalisation made consistent with the body text
+\title{Public--Private Partnership Vaccine Distribution Supply Chain Model: A Novel Double-Valued Refined Neutrosophic Hesitant Fuzzy Approach}
+
+\begin{abstract}
+Immunization programmes in low- and middle-income countries are being increasingly implemented as public--private partnerships, where doses bought from private suppliers and received from donor agencies are then stored in several layers before reaching the hospital. The more tiers that are added, the more expensive the network will be, the further away a dose will be from the person it is intended for, and the greater the chance that the doses will be diverted. A network built on cost alone may leave the weakest hospitals underserved and the riskiest partners in place. A three-objective multi-period distribution model is thus formulated, minimizing the total network cost and a corruption index that includes structural and transactional terms, and maximizing the level of mitigation, which is the minimum fraction of demand guaranteed to every hospital. The corruption indices and demand estimates are expert judgements and not measurements, so the model is solved using a novel proposed double-valued refined neutrosophic hesitant fuzzy set (DVRNHFS), whose operations are defined and whose four graded memberships are used to convert the multiobjective model into an equivalent crisp problem. The proposed method gives a total cost of $3,985,142$, a corruption index of 10.2958 and a mitigation level of $\lambda$ = 0.9863, corresponding to 12,575 of the 12,750 doses demanded by every hospital in every period, and a sensitivity analysis of the parameters that are not under managerial control is also performed. Theoretically, the paper extends the neutrosophic optimization by introducing a double valued refined neutrosophic hesitant fuzzy structure, which transforms the multi-objective programme into an equivalent crisp programme, by using four graded memberships. In practical terms, it offers a model for the health ministries and PPP programme managers of a supply chain in which the amount of corruption and the guaranteed coverage of each hospital are optimized together with the cost, while yielding a lower total normalized gap than the hesitant fuzzy and intuitionistic fuzzy methods under the same payoff bounds.
+\end{abstract}
+
+%% FIX: keyword made consistent with the body ("public--private partnership")
+\begin{keyword}
+Single-valued neutrosophic set\sep hesitant fuzzy set\sep double-valued refined neutrosophic set\sep neutrosophic optimization\sep fuzzy optimization\sep vaccine supply chain \sep public--private partnership \sep corruption index
+\MSC[2020] 90C05\sep  90C70
+\end{keyword}
+
+\end{frontmatter}
+{
+\section{Introduction}\label{s1}
+\noindent
+In low and middle-income countries, a national immunization programme typically does not own the vaccine it distributes. The cold rooms are owned by the health ministry, the trucks are under commercial contract and the doses are delivered by the private manufacturers and donor agencies as in-kind allocation. Both sides depend on each other, and neither wants exactly the same thing from the arrangement. Qi \cite{Qi:2025} went through twenty-one empirical studies of COVID-19 vaccine public--private partnerships (PPPs) and found the private side entering for regulatory and financial reasons while the public side entered on ethical grounds and national interest, the two sets of motives coinciding only in part. That incomplete overlap is what a planner inherits. Clearing the budget line does not discharge the equity commitment that got the programme approved, and the supplier with the cheapest quote is not always one to which a ministry should commit for three years.\\
+The second feature of these networks is depth. A dose bought from a supplier typically passes through a national warehouse and a regional warehouse before it reaches a hospital. Each additional tier adds fixed opening cost, holding cost and transport cost, and each additional tier also adds a custody transfer at which doses can be diverted. This is not a theoretical concern. Farzanegan and Hofmann \cite{Farzanegan:2021} showed across countries that pre-pandemic public corruption is negatively associated with COVID-19 immunization progress after controlling for other determinants of vaccination speed, and Spreco et al. \cite{Spreco:2022} reported a country-level association between vaccination coverage and the Corruption Perception Index that survives adjustment for the Human Development Index. Onwujekwe et al. \cite{Onwujekwe:2023} documented the mechanism at ground level in Nigeria: unclear vaccination budgets, informal payments solicited by vaccinators in the field, personnel recruitment, and data falsification driven by coverage targets. Saeed and Kohler \cite{Saeed:2025} interviewed sixteen key informants involved in COVAX and identified vaccine theft and the introduction of substandard doses at the point of distribution as recurring risks, alongside a lack of transparency in pricing and contracts. Griffore et al. \cite{Griffore:2023} reached similar conclusions in a rapid review of pandemic health procurement. Corruption in vaccine delivery is therefore an empirically documented, entity-specific property of the partners and facilities a planner chooses, and it has two distinct channels: a risk incurred once when a partner is admitted to the network, and a risk that scales with the number of doses that pass through that partner.\\
+The optimization literature on vaccine distribution has developed rapidly since 2020 but has left corruption outside the model. Georgiadis and Georgiadis \cite{Georgiadis:2021} formulated a mixed-integer linear programme that plans dose flows, hub inventories and daily vaccination schedules under cold-chain and shelf-life constraints, minimizing storage, transport, fleet, staff and wastage costs. Sazvar et al. \cite{Sazvar:2021} designed a sustainable-resilient influenza vaccine network using capacity redundancy. Tang et al.  \cite{Tang:2022} minimized operational cost and total recipient travel distance in a multi-period vaccination planning problem. I\c{s}{\i}k and Y{\i}ld{\i}z \cite{Isik:2023} added medical waste handling and used polyhedral uncertainty sets to protect against supply, demand, storage and deterioration variability. Valizadeh et al. \cite{Valizadeh:2023} built a robust bi-level model in which the upper level carries mortality risk from late supply and inequality risk in distribution. Mohammadi et al. \cite{Mohammadi:2022} and Khalilpoor et al. \cite{Khalilpoor:2025} worked on resilient vaccine distribution under disruption. Gilani and Sahebi \cite{Gilani:2022} applied data-driven robust optimization with cutting hyperplanes to vaccine access uncertainty. What these models optimize is cost, coverage, travel distance, emissions, waste and mortality. None of them treats governance risk as a decision-relevant quantity, and none of them makes the choice of partner responsive to it.\\
+Equity is handled unevenly as well. Rastegar et al. \cite{Rastegar:2021} and Tavana et al. \cite{Tavana:2021}  both address equitable distribution, generally by weighting or by imposing a service floor. A floor is a constraint, not an objective: once satisfied, the model has no reason to improve on it, and the hospital sitting exactly at the floor stays there while additional doses are allocated according to the cost gradient. For a programme whose stated purpose is to reach everyone, the quantity worth maximizing is the guaranteed minimum, meaning the fraction of demand that the worst-served hospital receives in its worst period. That is the mitigation level used in this paper, and it is a max-min quantity rather than an average.\\
+A third gap concerns the data. Corruption indices for suppliers, donors and warehouses are expert judgements. So are the demand figures for hospitals in a forward-looking immunization plan. A planner asked to score a supplier's diversion risk will not return a single number, and two planners will not return the same number. Fuzzy programming, beginning with Bellman and Zadeh \cite{Bellman:1970} and Zimmermann \cite{Zimmermann:1978} , represents such a parameter with one membership degree. Angelov \cite{Angelov:1997} added a non-membership degree, and Torra \cite{Torra:2010} introduced hesitant fuzzy sets, in which the membership of an element is a set of possible values rather than one value, so that disagreement among experts is carried into the model instead of being averaged away before it enters. Neutrosophic sets separate truth from falsity and from indeterminacy, and Kandasamy \cite{Kandasamy:2018} refined the indeterminacy component into two parts, one leaning toward truth and one leaning toward falsity, producing the double-valued neutrosophic set. Freen et al. \cite{Freen:2020} built a four-valued refined neutrosophic optimization method on this partition and Saeed et al. \cite{Saeed:2024} applied it to a closed-loop network. Riaz et al. \cite{Riaz:2022} and Kamran et al. \cite{Kamran:2023} combined hesitancy with single-valued neutrosophic information, and Bharati \cite{Bharati:2018,Bharati:2022} developed hesitant and hesitant-intuitionistic algorithms for multi-objective linear programmes. The combination that this paper needs, four graded memberships each of which is a hesitant set, has not been defined.\\
+This study therefore develops a double-valued refined neutrosophic hesitant fuzzy set (DVRNHFS), defines its operations, and uses it to solve a three-objective multi-period PPP vaccine distribution model. The objectives of the research are as follows.
+\begin{itemize}
+    \item Formulate a multi-echelon, multi-period PPP vaccine distribution network spanning private suppliers, donor agencies, national warehouses, regional warehouses and hospitals, with facility opening and period activation kept as separate decisions.
+    \item Represent governance risk as an explicit objective built from an entity-level corruption index split into a structural term charged once on partner selection and a transactional term charged per dose handled.
+    \item Maximize the guaranteed minimum coverage across all hospitals and periods rather than imposing a service floor and stopping there.
+    \item Define the DVRNHFS, establish its operations and its four graded hesitant memberships, and prove the conversion of the resulting programme into an equivalent crisp model.
+    \item Test the method against Angelov's intuitionistic fuzzy method and a hesitant fuzzy method on identical payoff bounds, and examine sensitivity to the parameters a programme manager does not control.
+\end{itemize}
+The research questions that follow from these objectives are:
+\begin{itemize}
+\item How should governance risk enter a distribution model so that it changes which partners are selected rather than only rescaling a reported score?
+\item What does a network look like when the guaranteed minimum coverage is maximized instead of merely satisfied?
+\item Does separating indeterminacy into two graded components, each hesitant, produce a different compromise from a single-membership or membership--non-membership formulation on the same feasible region?
+\item Which of the uncontrolled parameters (hospital demand, upstream capacity, the corruption indices) actually move the network design?
+\end{itemize}
+Three contributions distinguish this work. First, the corruption objective is decomposed into structural and transactional channels weighted by a parameter that a planner can set according to whether diversion in a given programme follows partner selection or throughput, which allows the same index data to be used under different governance assumptions. Second, the mitigation objective is a max-min guarantee, which produces a plan whose reported coverage figure is a floor and not a mean. Third, the DVRNHFS gives four independent readings of a single compromise plan, so that a planner can see how much of the solution's quality rests on the assumption that expert corruption estimates are correct, a distinction that no single-membership method makes.\\
+The remainder of the paper is organized as follows. Section 2 reviews vaccine distribution models, the PPP and corruption literature, and fuzzy and neutrosophic optimization, and states the research gap. Section 3 describes the problem, sets, parameters and decision variables. Section 4 develops the three objective functions and the constraints. Section 5 defines the DVRNHFS and its operations. Sections 6 and 7 present the proposed methodology and the computational algorithm. Section 8 applies the model to a national immunization programme with seven suppliers, six donors, four national warehouses, six regional warehouses, twenty hospitals and three periods. Section 9 gives the solution methodology, Section 10 the sensitivity analysis, and Section 11 the results, the comparison with existing methods, and the discussion.
+\section{Literature review}
+\label{sec:litreview}
+\subsection{Optimization models for vaccine distribution networks}
+Deterministic mixed-integer programming was the first tool applied to pandemic vaccine logistics and remains the most common. Georgiadis and Georgiadis \cite{Georgiadis:2021} combined network flow decisions with daily vaccination scheduling under two-dose and cold-chain requirements, and solved large instances by a divide-and-conquer decomposition followed by a rolling horizon to absorb disturbances. Tang et al. \cite{Tang:2022}  treated total recipient travel distance as a service-level proxy and traded it against operational cost using weighted-sum and $\varepsilon$-constraint methods before developing a tailored genetic algorithm. Karakaya and Balcik  \cite{Karakaya:2024} constructed a national vaccination calendar under supply uncertainty. Sepehri et al. \cite{Sepehri:2024} designed a five-echelon reliable-sustainable network with an adaptive m-objective $\varepsilon$-constraint method, and Tirkolaee et al. \cite{Tirkolaee:2022}  used Pareto-based algorithms on a closed-loop mask network during COVID-19. These models are computationally tractable and give clear managerial output, but they assume the parameters are known.\\
+Stochastic and robust formulations relax that assumption. Govindan et al. \cite{Govindan:2020} built a demand management support system for epidemic outbreaks. Mohammadi et al. \cite{Mohammadi:2022} minimized expected deaths jointly with distribution cost in a stochastic resilient network.  I\c{s}{\i}k and Y{\i}ld{\i}z \cite{Isik:2023} chose polyhedral uncertainty sets specifically because supply quantity, demand quantity, storage capacity and deterioration rate are all uncertain in a provincial vaccine programme, and reported the price of robustness explicitly. Gilani and Sahebi \cite{Gilani:2022} cut hyperplanes on vaccine access uncertainty. Khalilpoor et al. \cite{Khalilpoor:2025} combined optimization with simulation for multi-objective resilience management. The recurring cost of these approaches is scale: scenario trees grow quickly, and robust counterparts of an already large mixed-integer programme can be conservative enough that the recommended plan is not one a programme would run.\\
+Where equity has been modelled, it has usually been modelled as a constraint or a weighted term. Rastegar et al. \cite{Rastegar:2021} optimized inventory and location for equitable influenza vaccine distribution in developing countries, and Tavana et al. \cite{Tavana:2021} proposed a mathematical programme for equitable COVID-19 distribution. Valizadeh et al. \cite{Valizadeh:2023} carried an inequality risk term at the upper level of a bi-level model. Wang et al. \cite{Wang:2023}  approached the same question from outside the optimization literature, estimating that equitable global distribution would raise annual global economic benefit by 11.7 per cent, roughly 950 billion dollars, relative to a producer-first allocation. Almuwallad \cite{Almuwallad:2026} provides the closest methodological precedent to the present study outside the vaccine setting: a three-objective reverse logistics model for e-waste in which profit, emissions and facility effectiveness are optimized jointly and the solution is obtained by a four-valued neutrosophic method, with facility failure modelled by a Markov process.\\
+\subsection{Public--private partnerships and corruption in vaccine delivery}
+\label{subsec:ppp}
+The PPP literature and the optimization literature have developed almost independently. Qi \cite{Qi:2025} mapped the drivers and barriers on both sides of vaccine PPPs and proposed a governance alignment framework, concluding that misalignment rather than absence of capacity explains most partnership failures. That conclusion has a modelling consequence which the review does not draw: if the public and private sides value different things, the network design should carry both valuations as separate objectives rather than collapsing them into one cost figure.\\
+On the risk side the evidence is now reasonably consistent. Kohler and Dimancesco  \cite{Kohler:2020} set out why pharmaceutical procurement is structurally exposed to corruption. Farzanegan and Hofmann  \cite{Farzanegan:2021} and Spreco et al. \cite{Spreco:2022}  established country-level associations between corruption measures and immunization outcomes. Onwujekwe et al. \cite{Onwujekwe:2023} and Saeed and Kohler \cite{Saeed:2025} identified where in the chain the losses occur, and both point to two separable channels: the admission of an unsuitable partner or facility, and leakage proportional to the volume flowing through it. Griffore et al. \cite{Griffore:2023} catalogued the anti-corruption, transparency and accountability mechanisms deployed during the pandemic and found their coverage patchy. Kalantari et al. \cite{Kalantari:2022} and Khan et al. \cite{Khan:2021}  show that policy-driven terms of this kind can be embedded in neutrosophic supply chain models, but neither applies the idea to governance risk. No published vaccine distribution model, to our knowledge, carries an entity-level corruption index into the objective function in a way that changes partner selection.\\
+\subsection{Fuzzy, hesitant and neutrosophic multi-objective optimization}
+\label{subsec:fuzzy}
+Bellman and Zadeh \cite{Bellman:1970} introduced decision-making in a fuzzy environment and Zimmermann \cite{Zimmermann:1978} extended fuzzy linear programming to several objective functions, giving the max-min aggregation still used today. Angelov \cite{Angelov:1997} added a non-membership degree, so that a solution is scored on satisfaction and dissatisfaction separately. Smarandache \cite{Smarandache:1998} introduced neutrosophy, in which indeterminacy is a third component independent of truth and falsity, and Das and Roy \cite{Das:2015} built the first neutrosophic optimization technique for multi-objective non-linear programmes.\\
+Two lines of refinement matter here. The first concerns indeterminacy. Kandasamy \cite{Kandasamy:2018} argued that a single indeterminacy value conflates two different states, one closer to truth and one closer to falsity, and defined the double-valued neutrosophic set with a distance measure and clustering algorithm to separate them. Freen et al. \cite{Freen:2020} turned this partition into a four-valued refined neutrosophic optimization method, Khalil et al. \cite{Khalil:2022} developed a bipolar interval-valued variant for an integrated healthcare system, and Ahmad \cite{Ahmad:2022} applied interactive neutrosophic optimization to pharmaceutical supply chain management. Kousar et al. \cite{Kousar:2023} used the approach on uncertain crop production, and Saeed et al. \cite{Saeed:2024} on a smartphone closed-loop network.\\
+The second line concerns hesitancy. Torra \cite{Torra:2010} defined the hesitant fuzzy set, in which membership is a set of admissible values, and Bharati \cite{Bharati:2018} built a computational algorithm for multi-objective linear programmes on hesitant membership functions, later extending it to hesitant intuitionistic information \cite{Bharati:2022}. Riaz et al. \cite{Riaz:2022} constructed a topology on single-valued neutrosophic hesitant fuzzy sets and applied it to green supplier selection, and Kamran et al. \cite{Kamran:2023} developed confidence-level aggregation operators for single-valued neutrosophic hesitant rough information.\\
+Both refinements are needed simultaneously for the problem at hand, and they have not been combined. A double-valued refined neutrosophic set gives four graded memberships but assigns each a single number, so it cannot hold three planners' disagreement about a supplier's diversion risk. A single-valued neutrosophic hesitant fuzzy set holds the disagreement but keeps indeterminacy undivided, so it cannot separate a plan that is undetermined-toward-acceptable from one that is undetermined-toward-unacceptable. The DVRNHFS defined in Section 5 does both.
+
+\subsection{Research gap}
+\label{subsec:gap}
+Table \ref{tab:contribution} positions this work against the studies reviewed above. Five gaps emerge.
+\begin{itemize}
+    \item No vaccine distribution model carries an entity-level governance risk into the objective function. Corruption appears in the empirical literature on immunization outcomes \cite{Farzanegan:2021,Spreco:2022,Onwujekwe:2023,Saeed:2025}  and in procurement policy reviews \cite{Griffore:2023,Kohler:2020}, but not as a term that determines which supplier, donor or warehouse is opened.
+    \item Equity is imposed as a floor or a weighted term rather than maximized. The reported coverage figure in existing models is therefore usually an average, and the hospital with the weakest service is not the one the model is working on.
+    \item The two channels through which governance risk enters a network, partner admission and dose throughput, are not separated. Without that separation a planner cannot ask whether a programme's exposure comes from who it works with or from how much it moves through them.
+    \item The representation of uncertainty is coarser than the data warrants. Corruption indices and forward demand estimates in immunization planning are expert judgements from several people who disagree, and single-membership fuzzy \cite{Bellman:1970,Zimmermann:1978} or membership--non-membership \cite{Angelov:1997} formulations discard both the disagreement and the direction of the residual indeterminacy.
+    \item The double-valued refined neutrosophic partition \cite{Kandasamy:2018,Freen:2020} and hesitant membership \cite{Torra:2010,Bharati:2018} have not been combined, so no existing method reports four independent graded readings of one compromise plan.
+    \end{itemize}
+    This study addresses these gaps with a three-objective multi-period PPP vaccine distribution model solved by a newly defined DVRNHFS, and evaluates it against Angelov's intuitionistic fuzzy method and a hesitant fuzzy method on identical payoff bounds.
+
+\begin{table}[!ht]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{Research contribution table}
+\label{tab:contribution}
+\begin{tabular}{@{}p{1.45cm}p{2.1cm}p{1.05cm}p{0.75cm}p{1.75cm}p{1.85cm}p{2.1cm}p{2.4cm}@{}}
+\toprule
+Reference & Network & Multi-period & Cost & Governance / corruption objective & Equity treatment & Uncertainty representation & Solution method \\
+\midrule
+\cite{Georgiadis:2021} & VSC, hubs and clinics & Yes & Yes & No & None & Deterministic & MILP + decomposition \\
+\cite{Sazvar:2021} & Influenza VSC & Yes & Yes & No & None & Fuzzy / scenario & Multi-objective MILP \\
+\cite{Tang:2022} & Vaccination sites & Yes & Yes & No & Travel distance & Deterministic & $\varepsilon$-constraint + genetic algorithm \\
+\cite{Isik:2023} & Provincial VSC + waste & Yes & Yes & No & None & Polyhedral robust & Robust MILP \\
+\cite{Valizadeh:2023} & VSC, mobile and fixed centres & Yes & Yes & No & Inequality risk term & Scenario-based robust & Bi-level + metaheuristics \\
+\cite{Mohammadi:2022} & Resilient VSC & Yes & Yes & No & Expected deaths & Robust-stochastic & Bi-objective MINLP \\
+\cite{Khalilpoor:2025} & Resilient VSC & Yes & Yes & No & None & Stochastic + simulation & Multi-objective optimization \\
+\cite{Gilani:2022} & VSC access & Yes & Yes & No & None & Data-driven robust & Cutting hyperplanes \\
+\cite{Rastegar:2021} & Influenza VSC & Yes & Yes & No & Equity weighting & Deterministic & Inventory-location model \\
+\cite{Tavana:2021} & VSC, developing countries & Yes & Yes & No & Equity weighting & Deterministic & Mathematical programming \\
+\cite{Sepehri:2024} & Five-echelon general SC & Yes & Yes & No & None & Deterministic & Adaptive $m$-objective $\varepsilon$-constraint \\
+\cite{Almuwallad:2026} & E-waste reverse logistics & Yes & Profit & No & None & Four-valued neutrosophic & Neutrosophic multi-objective \\
+\cite{Freen:2020} & Illustrative & No & Yes & No & None & Four-valued refined neutrosophic & Crisp conversion \\
+\cite{Riaz:2022} & Green supplier selection & No & No & No & None & SVN hesitant fuzzy & SIR and choice value \\
+\cite{Bharati:2018} & Illustrative & No & Yes & No & None & Hesitant fuzzy & Hesitant membership algorithm \\
+\midrule
+This study & PPP VSC: suppliers, donors, NDCs, RDCs, hospitals & Yes & Yes & Yes, structural and transactional & Max-min guaranteed coverage & DVRNHF, four hesitant graded memberships & DVRNHF optimization with crisp conversion \\
+\bottomrule
+\end{tabular}
+\end{table}
+\section{Problem Description}
+\label{s3}
+%% FIX: opening sentence de-duplicated ("problem ... design ... problem")
+\noindent This section describes the public--private partnership vaccine distribution network design problem, for which three objective functions, cost, corruption index and mitigation level, are constructed. The model minimizes cost and corruption and maximizes the mitigation level.\\
+\textbf{Sets:}
+\begin{align*}
+U &:\ \text{suppliers}   && U = \{1, 2, \dots, n_U\} \\
+V &:\ \text{donors}   && V = \{1, 2, \dots, n_V\} \\
+M &:\ \text{national distribution centers}   && M = \{1, 2, \dots, n_M\} \\
+R &:\ \text{regional distribution centers}   && R = \{1, 2, \dots, n_R\} \\
+H &:\ \text{hospitals}   && H = \{1, 2, \dots, n_H\} \\
+T &:\ \text{time periods}   && T = \{1, 2, \dots, n_T\}
+\end{align*}
+
+\noindent \textbf{Parameters}\\
+\begin{align*}
+d_{u m} & : \text{Distance between suppliers } U \text{ and national distribution centers } M \; (\text{km})\\
+d_{v m} & : \text{Distance between donors } V \text{ and national distribution centers } M \; (\text{km})\\
+d_{m r} & : \text{Distance between national distribution centers } M \text{ and regional distribution centers } R \; (\text{km})\\
+d_{r h} & : \text{Distance between regional distribution centers } R \text{ and hospitals } H \; (\text{km})\\
+\pi_{f} & : \text{Fuel consumption rate } (\text{litre/km})\\
+\pi_{p} & : \text{Fuel price } (\$/\text{litre})\\
+P_{u t} & : \text{Purchasing price of vaccine from suppliers } U \text{ in time period } T\\
+\eta_{m} & : \text{Holding cost per unit at national distribution center } m \in M \\
+\eta_{r} & : \text{Holding cost per unit at regional distribution center } r \in R \\
+I^{\text{init}}_{m} & : \text{Initial inventory at national distribution center } m \in M \\
+I^{\text{init}}_{r} & : \text{Initial inventory at regional distribution center } r \in R \\
+\kappa_{u} & : \text{One time opening cost of supplier } U \\
+\kappa_{v} & : \text{One time opening cost of donor } V \\
+\kappa_{m} & : \text{One time opening cost of NDC } M \\
+\kappa_{r} & : \text{One time opening cost of RDC } R \\
+\omega & : \text{Capacity of vehicle}\\
+\zeta^{f}_{u},\zeta^{f}_{v},\zeta^{f}_{m},\zeta^{f}_{r} & : \text{Structural corruption index (incurred once on selection)}\\
+\zeta^{v}_{u},\zeta^{v}_{v},\zeta^{v}_{m},\zeta^{v}_{r} & : \text{Transactional corruption index (per unit handled)}\\
+\mu_{u} & : \text{Maximum production capacity of supplier } u \in U \\
+\gamma_{v} & : \text{Maximum supply capacity of donor } v \in V \\
+\sigma_{m} & : \text{Storage capacity of national distribution center } m \in M \\
+\sigma_{r} & : \text{Storage capacity of regional distribution center } r \in R\\
+D_{ht} & : \text{Demand at hospital } h \in H \text{ in time period } t \in T\\
+\phi & : \text{Minimum service level} \\
+\theta &: \text{ Weight assigned to the structural channel of the corruption index}\\
+\breve{Q} &: \text{ Normalization quantity used to express transactional corruption risk on a per-dose basis}\\
+B &: \text{Total available budget}
+\end{align*}
+\noindent \textbf{Decision Variables}\\
+\begin{align*}
+Q_{u m t} & : \text{Quantity of vaccine from suppliers } U \text{ to national distribution centers } M \text{ in time period } T\\
+Q_{v m t} & : \text{Quantity of vaccine from donors } V \text{ to national distribution centers } M \text{ in time period } T\\
+Q_{m r t} & : \text{Quantity of vaccine from national distribution centers } M \text{ to regional distribution centers } R \text{ in time period } T\\
+Q_{r h t} & : \text{Quantity of vaccine from regional distribution centers } R \text{ to hospitals } H \text{ in time period } T\\
+I_{m t} & : \text{Inventory of vaccine at national distribution centers } M \text{ in time period } T\\
+I_{r t} & : \text{Inventory of vaccine at regional distribution centers } R \text{ in time period } T\\
+\lambda & : \text{Guaranteed minimum coverage level, } \lambda \in [0,1]
+\end{align*}
+
+\noindent Binary variables:
+\begin{align*}
+W_{i} & =
+\begin{cases}
+1, & \text{if entity } i \text{ is opened (once over the horizon)} \\
+0, & \text{otherwise}
+\end{cases}
+\qquad \forall i \in U \cup V \cup M \cup R\\
+Y_{u t} & =
+\begin{cases}
+1, & \text{if supplier } u \in U \text{ is active in period } t \\
+0, & \text{otherwise}
+\end{cases}\\
+Y_{vt} & =
+\begin{cases}
+1, & \text{if donor } v \in V \text{ is active in period } t \\
+0, & \text{otherwise}
+\end{cases}\\
+Y_{m t} & =
+\begin{cases}
+1, & \text{if national distribution center } m \in M \text{ is active in period } t \\
+0, & \text{otherwise}
+\end{cases}\\
+Y_{r t} & =
+\begin{cases}
+1, & \text{if regional distribution center } r \in R \text{ is active in period } t \\
+0, & \text{otherwise}
+\end{cases}
+\end{align*}
+The problem definition of the public--private partnership supply chain network design is elaborated in Figure \ref{gs}.
+
+%% ------------------------------------------------------------------
+%% NOTE FOR THE AUTHOR: the artwork file supply_chain_diagram.pdf
+%% currently labels the first two tiers "Suppliers (S)" and "Donors (U)".
+%% The model uses U for suppliers and V for donors, so the figure must be
+%% re-exported with the labels "Suppliers (U)" and "Donors (V)".
+%% ------------------------------------------------------------------
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth, viewport=0 0 900 350, clip]{supply_chain_diagram.pdf}
+  \caption{Public--private partnership vaccine supply chain network}
+  \label{gs}
+\end{figure}
+\section{Mathematical Model}
+\label{s4}
+\noindent In this section, three objective functions are developed.
+\subsection{Cost}
+The first objective is to minimize the total network cost. Setup components ($W$) incur a one-time cost $\kappa$ for each supplier, donor, and distribution center upon their inclusion in the network. The procurement component is the product of the purchase price $P_{ut}$ and the purchased quantity $Q_{umt}$. Four transportation components determine the cost of each shipment based on the fuel consumption rate $\pi_f$, fuel price $\pi_p$, and distance $d$, dividing the result by the vehicle capacity $\omega$ to obtain the unit cost. Inventory holding components account for the costs of stock held at centers, calculated at rate $\eta$.
+
+\begin{equation}
+\begin{aligned}
+\min Z_1 =\
+& \sum_{u}\kappa_u W_u + \sum_{v}\kappa_v W_v + \sum_{m}\kappa_m W_m + \sum_{r}\kappa_r W_r \\
+& + \sum_{t}\sum_{u}\sum_{m} P_{ut}\, Q_{umt} \\
+& + \sum_{t}\Bigg[ \sum_{u}\sum_{m}\frac{\pi_f \pi_p d_{um}}{\omega}Q_{umt}
+  + \sum_{v}\sum_{m}\frac{\pi_f \pi_p d_{vm}}{\omega}Q_{vmt} \\
+& \qquad\ + \sum_{m}\sum_{r}\frac{\pi_f \pi_p d_{mr}}{\omega}Q_{mrt}
+  + \sum_{r}\sum_{h}\frac{\pi_f \pi_p d_{rh}}{\omega}Q_{rht} \Bigg] \\
+& + \sum_{t}\sum_{m}\eta_m I_{mt} + \sum_{t}\sum_{r}\eta_r I_{rt}
+\end{aligned}
+\label{e4.1}
+\end{equation}
+\subsection{Corruption Index}
+The second goal (to minimize the corruption index) is fulfilled by two parts based on a single corruption index assigned to each entity $CI_i$. This index is divided into two parts: a structural coefficient $\zeta^{f}_{i} = \theta \cdot CI_i$ and a transactional coefficient $\zeta^{v}_i = (1-\theta)\, CI_i / \breve{Q}$, with $\breve{Q}$ being a normalization quantity expressing the transactional risk on per-dose basis. All the entities' $\zeta^{f}$ indicators are connected by structural components to the first opening term $W$, so that the risk of working together with another high-risk partner is only incurred once. A weight is associated with each $\zeta^v$ indicator, based on the flow $Q$ that passes through the corresponding node, and the risks associated with the indicator, for example theft or illicit diversion, increase with the amount of flow through the node. If $\theta = 0.5$, both channels are given equal weight. The value of $\theta > 0.5$ puts more weight on partner selection, which is suitable when diversion occurs after the admission of an unsuitable partner, while $\theta < 0.5$ puts more weight on throughput, where losses increase with the number of doses processed. This indicator is not calculated for hospitals, which are the terminal nodes of the network and neither order nor store vaccine on behalf of the programme; risks arising at the point of administration are outside the scope of the network design decision modelled here.
+\begin{equation}
+\begin{aligned}
+\min Z_2 =\
+& \sum_{u}\zeta^{f}_u W_u + \sum_{v}\zeta^{f}_v W_v
+  + \sum_{m}\zeta^{f}_m W_m + \sum_{r}\zeta^{f}_r W_r \\
+& + \sum_{t}\sum_{u}\sum_{m}\zeta^{v}_u Q_{umt}
+  + \sum_{t}\sum_{v}\sum_{m}\zeta^{v}_v Q_{vmt}
+  + \sum_{t}\sum_{m}\sum_{r}\zeta^{v}_m Q_{mrt}
+  + \sum_{t}\sum_{r}\sum_{h}\zeta^{v}_r Q_{rht}
+\end{aligned}
+\label{eq:corruption}
+\end{equation}
+\subsection{Mitigation Level}
+The third objective function maximizes $\lambda$---the guaranteed minimum coverage level. In conjunction with the minimum coverage constraint, increasing $\lambda$ mandates that every hospital meets demand at a level of at least $\lambda$; this improves the situation for the hospital with the poorest service level, rather than encouraging the over-provisioning of facilities that are already easy to serve.
+
+\begin{equation}
+\max Z_3 = \lambda
+\label{e4.4}
+\end{equation}
+The proposed model's constraints are listed below.
+\subsection{Capacity constraints}
+\noindent The capacity constraints for supplier in Eq. \ref{e4.41} ensure that the amount of vaccine sent from supplier $u$ to national distribution center $m$ in time period $t$ is less than or equal to the production capacity of the selected supplier $u$.
+\begin{equation}
+\sum_{m \in M} Q_{umt} \leq \mu_u\, Y_{ut}, \qquad \forall u \in U,\ \forall t \in T
+\label{e4.41}
+\end{equation}
+Donor capacity constraints in Eq. \ref{e4.42} state that the quantity supplied by donor $v$ to national distribution centers $m$ remains within its donation capacity, only if the donor is active in time period $t$.
+\begin{equation}
+\label{e4.42}
+\sum_{\substack{m \in M}} Q_{vmt} \leq \gamma_v \cdot Y_{vt},
+\quad \forall v \in V \quad \forall t \in T
+\end{equation}
+National distribution capacity constraints in Eq. \ref{e4.43} ensure that inflows of vaccines from suppliers $u$ and donors $v$ into national distribution center $m$ in time period $t$ do not exceed storage capacity when that center is selected.
+\begin{equation}
+\label{e4.43}
+\sum_{\substack{u \in U}} Q_{umt} + \sum_{v \in V} Q_{vmt} \leq \sigma_m \cdot Y_{mt},
+\quad \forall m \in M \quad \forall t \in T
+\end{equation}
+Regional distribution center constraints in Eq. \ref{e4.44} indicate that the total quantity delivered from national to regional distribution centres does not exceed the respective regional capacity.
+\begin{equation}
+\label{e4.44}
+\sum_{\substack{m \in M }} Q_{mrt} \leq \sigma_r \cdot Y_{rt},
+\quad \forall r \in R \quad \forall t \in T
+\end{equation}
+Constraints \ref{e4.44a} and \ref{e4.44b} govern outflow rather than inflow. An activated centre may ship up to its storage capacity in any period. A centre that is not activated ships nothing, except in the first period, when it may release the stock pre-positioned there before the planning horizon began, so that doses already placed in the network are not written off.
+\begin{equation}
+\label{e4.44a}
+\tag{7a}
+\sum_{r \in R} Q_{mrt} \leq \sigma_m Y_{mt} + I^{\text{init}}_{m}\, \mathbf{1}\{t = 1\},
+\quad \forall m \in M \quad \forall t \in T
+\end{equation}
+\begin{equation}
+\label{e4.44b}
+\tag{7b}
+\sum_{h \in H} Q_{rht} \leq \sigma_r Y_{rt} + I^{\text{init}}_{r}\, \mathbf{1}\{t = 1\},
+\quad \forall r \in R \quad \forall t \in T
+\end{equation}
+%% FIX: the two overlapping explanatory paragraphs merged into one; the
+%% inequalities permit a release, they do not compel one.
+Here $\mathbf{1}\{\cdot\}$ is the indicator function, equal to one when the condition holds and zero otherwise. Constraints \ref{e4.43} and \ref{e4.44} restrict inflow, so an unactivated facility receives no shipments and incurs no opening or holding cost, while Constraint \ref{e4.46a} forces its closing inventory to zero. Constraints \ref{e4.44a} and \ref{e4.44b} are upper bounds on outflow and therefore permit, rather than compel, such a facility to release in the first period the stock pre-positioned there before the planning horizon, so that doses already placed in the network are not stranded.
+\subsection{Inventory constraint}
+The inventory-balance constraint for a national distribution center $m$ in Eq.~\ref{e4.45} means that the inventory that remains at the national center $m$ at the end of period $t$ is equal to the inventory carried over from the previous period, plus the inflow from suppliers $u$ and donors $v$ to the national center $m$ minus the outflow shipped from the national center $m$ to the regional centers $r$.
+\begin{equation}
+\label{e4.45}
+I_{mt} = I_{m,t-1} + \sum_{u \in U} Q_{umt} + \sum_{v \in V} Q_{vmt} - \sum_{r \in R} Q_{mrt}, \quad \forall m \in M,\ \forall t \in T
+\end{equation}
+Similarly, the inventory-balance constraint for the regional distribution centers in Eq.~\ref{e4.46} states that the inventory level at the end of period $t$ at a regional center $r$ will be equal to the inventory level at the end of period $t-1$ at the same center, plus the inventory level received from the national centers $m$ minus the inventory level delivered to the hospitals $h$.
+\begin{equation}
+I_{rt} = I_{r,t-1} + \sum_{m} Q_{mrt} - \sum_{h} Q_{rht}, \quad \forall r,\ \forall t
+\label{e4.46}
+\end{equation}
+Each center has a fixed starting level for the initial inventory defined in Eq. \ref{e4.466}. This pre-positioned stock is an endowment carried into the planning horizon; its procurement cost was incurred before the horizon began and is therefore not charged in Eq. \ref{e4.1}.
+\begin{equation}
+\label{e4.466}
+I_{m,0} = I^{init}_{m},\ \forall m; \qquad I_{r,0} = I^{init}_{r},\ \forall r
+\end{equation}
+Lastly, when the center is active, the held inventory at each center must not exceed its storage capacity, as indicated in Eq.~\ref{e4.46a}.
+\begin{equation}
+\label{e4.46a}
+I_{mt} \leq \sigma_{m} Y_{mt},\ \forall m,\forall t; \qquad I_{rt} \leq \sigma_{r} Y_{rt},\ \forall r,\forall t
+\end{equation}
+\subsection{Demand and service level constraints}
+The vaccines are delivered to the hospitals under constraints \ref{eq:deliv}-\ref{eq:lambda}. A constraint  \ref{eq:deliv} prevents overstocking and wastage of perishable vaccines due to the total quantity delivered to each hospital not exceeding its demand. Constraint  \ref{eq:floor} ensures that a minimum service level $\phi$ is met at every hospital, meaning that a lower service level than this is not allowed, and is designed to implement an equity policy for the system, where no hospital may be left with too few services in a period. The delivered quantity is related to the coverage variable $\lambda$ through constraint \ref{eq:lambda} which is maximized by the mitigation objective; thus, the value of $\lambda$ guarantees the minimum coverage achieved at every hospital.
+%% FIX: the claim that constraint (13) could bind in the reduced-capacity
+%% instances is not borne out: the smallest coverage reported in Section 10
+%% is 0.9624, still above phi = 0.90.
+Constraint \ref{eq:floor} is not binding at the optimum reported in Section 11, nor in any of the perturbed instances of Section 10, where the guaranteed coverage never falls below $0.9624$; it is retained as a hard lower bound that would take effect in instances where the network cannot support a higher guarantee.
+
+\begin{align}
+\sum_{r} Q_{rht} &\le D_{ht}, & \forall h,\ \forall t \label{eq:deliv} \\
+\sum_{r} Q_{rht} &\ge \phi\, D_{ht}, & \forall h,\ \forall t \label{eq:floor} \\
+\sum_{r} Q_{rht} &\ge \lambda\, D_{ht}, & \forall h,\ \forall t \label{eq:lambda}
+\end{align}
+\subsection{Facility opening constraints}
+\label{subsec:opening}
+The period-wise activation variable $Y_{it}$ is connected to the one-time opening variable $W_i$ by the constraints given in Eq.~\ref{e4.47ab}. The first part shows that an entity cannot be active in any period unless it has been opened over the planning horizon; the second part indicates that an entity  is recorded as opened if it is active in at least one period. These two conditions together ensure that the cost of setup and structural corruption of an entity happens only once over the plan horizon, irrespective of the number of periods the entity is used.
+\begin{equation}
+Y_{it} \leq W_i,\ \forall t; \qquad W_i \leq \sum_{t \in T} Y_{it},
+\qquad \forall i \in U \cup V \cup M \cup R
+\label{e4.47ab}
+\end{equation}
+\subsection{Budget constraint}
+\noindent Budget constraint in Eq \ref{e4.48} guarantees that costs associated with procurement, storage and transportation in the supply chain network does not exceed available national budget. The left-hand side of Eq. \ref{e4.48} is identical to the cost objective $Z_1$ of Eq. \ref{e4.1}, so the constraint may equivalently be written $Z_1 \leq B$.
+\begin{equation}
+\begin{aligned}
+&\sum_{u}\kappa_u W_u + \sum_{v}\kappa_v W_v + \sum_{m}\kappa_m W_m + \sum_{r}\kappa_r W_r
++ \sum_{t}\Bigg( \sum_{u}\sum_{m} P_{ut}Q_{umt}
++ \sum_{u}\sum_{m}\frac{\pi_f \pi_p d_{um}}{\omega}Q_{umt}
++ \sum_{v}\sum_{m}\frac{\pi_f \pi_p d_{vm}}{\omega}Q_{vmt} \\
+&+ \sum_{m}\sum_{r}\frac{\pi_f \pi_p d_{mr}}{\omega}Q_{mrt}
++ \sum_{r}\sum_{h}\frac{\pi_f \pi_p d_{rh}}{\omega}Q_{rht}
++ \sum_{m}\eta_m I_{mt} + \sum_{r}\eta_r I_{rt} \Bigg) \leq B
+\end{aligned}
+\label{e4.48}
+\end{equation}
+\subsection{Binary and non-negativity constraints}
+\noindent All quantity variables are non-negative.
+\begin{equation}
+Q_{umt},\,Q_{vmt},\,Q_{mrt},\,Q_{rht},\,I_{mt},\,I_{rt} \geq 0, \qquad 0 \leq \lambda \leq 1
+\end{equation}
+\begin{equation}
+Y_{ut},\,Y_{vt},\,Y_{mt},\,Y_{rt},\,W_u,\,W_v,\,W_m,\,W_r \in \{0,1\}
+\end{equation}
+\section{Double-valued refined neutrosophic hesitant fuzzy set (DVRNHFS)}
+\noindent Indeterminacy represents forms of uncertainty that cannot be described by a binary true--false description. In practice, an indeterminate situation may have more truth in it than falsity, but not be classifiable as true, and it may have more falsity than truth, but not be classifiable as false. Two categories are thus created. An indeterminacy whose contextual content is nearer to truth, but whose status is still undetermined, is called indeterminacy leaning towards truth; an indeterminacy whose contextual content is nearer to falsity, but whose status is still undetermined, is called indeterminacy leaning towards falsity. Separating indeterminacy in this way gives a more precise description of the uncertainty in a scenario than a single undivided indeterminacy degree.\\
+The integration of hesitancy in double-valued refined neutrosophic sets results in the formation of a novel type of set, the double-valued refined neutrosophic hesitant fuzzy set. This set characterizes the four membership degrees of an element not only by traditional membership functions but also by an additional hesitancy factor. This new hesitancy factor quantifies the degree of hesitation or uncertainty of an individual when making a decision regarding the truth value of the element. As a result, the representation of uncertainty in this set is more comprehensive compared to that provided by double-valued refined neutrosophic sets alone.\\
+Double-valued refined neutrosophic hesitant fuzzy set in $\hat{X}$ is defined by the presence of four distinct membership functions, namely possible-truth membership function $T_{DVRNHFS}$, indeterminacy leaning towards truth $U_{DVRNHFS}$, indeterminacy leaning towards falsity $C_{DVRNHFS}$, and falsity membership function $F_{DVRNHFS}$. Mathematically, defined as:
+\small
+\begin{equation*}
+\tilde{A}^{DVRNHFS}=\{(\hat{x},T_{\tilde{A}^{DVRNHFS}}(\hat{x}),U_{\tilde{A}^{DVRNHFS}}(\hat{x}),C_{\tilde{A}^{DVRNHFS}}(\hat{x}),F_{\tilde{A}^{DVRNHFS}}(\hat{x})) : \hat{x} \in \hat{X}\}.
+\end{equation*}
+Additionally, a $\tilde{A}^{DVRNHFS}$ must satisfy the following conditions; $$0\leq T_{\tilde{A}^{DVRNHFS}}(\hat{x}), U_{\tilde{A}^{DVRNHFS}}(\hat{x}), C_{\tilde{A}^{DVRNHFS}}(\hat{x}), F_{\tilde{A}^{DVRNHFS}}\leq1$$
+ $$0 \leq \max\{T_{\tilde{A}^{DVRNHFS}}\}+\max\{U_{\tilde{A}^{DVRNHFS}}\}+\max\{C_{\tilde{A}^{DVRNHFS}}\}+\max\{F_{\tilde{A}^{DVRNHFS}}\}\leq 4.$$
+ Additionally, when $\hat{X}$ is continuous:
+ \begin{equation*}
+\tilde{A}^{DVRNHFS}=\int_{\hat{x}}\biggl(\frac{T_{\tilde{A}^{DVRNHFS}}}{\hat{x}},\frac{U_{\tilde{A}^{DVRNHFS}}}{\hat{x}},\frac{C_{\tilde{A}^{DVRNHFS}}}{\hat{x}},\frac{F_{\tilde{A}^{DVRNHFS}}}{\hat{x}}\biggr).
+\end{equation*}
+ When $\hat{X}$ is discrete:
+\begin{equation*}
+\tilde{A}^{DVRNHFS}=\sum_{i=1}^n\biggl(\frac{T_{\tilde{A}^{DVRNHFS}}(\hat{x}_i)}{\hat{x}_i},\frac{U_{\tilde{A}^{DVRNHFS}}(\hat{x}_i)}{\hat{x}_i},\frac{C_{\tilde{A}^{DVRNHFS}}(\hat{x}_i)}{\hat{x}_i},\frac{F_{\tilde{A}^{DVRNHFS}}(\hat{x}_i)}{\hat{x}_i}\biggr)\
+\end{equation*}
+\begin{example}
+Let $\hat{X}=\{\hat{x_1},\hat{x_2},\hat{x_3}\}$. Then
+$$\hat{H} = \{(\hat{x}_1,\{0.2,0.4\},\{0.4\},\{0.6\},\{0.7\}),(\hat{x}_2,\{0.4\},\{0.3,0.6\},\{0.2\},\{0.7\}),(\hat{x}_3,\{0.6\},\{0.4\},\{0.3\},\{0.4\})\}$$
+is a DVRNH element in $\hat{X}$.
+\end{example}
+%\begin{remark}
+A DVRNHFS is a generalization of DVRNS.
+Consider the number of elements in each of $T_{\tilde{A}^{DVRNHFS}},U_{\tilde{A}^{DVRNHFS}},C_{\tilde{A}^{DVRNHFS}},F_{\tilde{A}^{DVRNHFS}}$ is one with an exception of any  $U_{\tilde{A}^{DVRNHFS}},C_{\tilde{A}^{DVRNHFS}}$ is zero then DVRNHFS is reduced to DVRNS.\\
+%\end{remark}
+ \subsection{ Operations on DVRNHFS}\label{ope}
+Let
+\begin{equation*}\tilde{A}^{DVRNHFS}=\{(\hat{x},T_{\tilde{A}^{DVRNHFS}}(\hat{x}),U_{\tilde{A}^{DVRNHFS}}(\hat{x}),C_{\tilde{A}^{DVRNHFS}}(\hat{x}),F_{\tilde{A}^{DVRNHFS}}(\hat{x})) : \hat{x} \in \hat{X}\},\end{equation*}
+\begin{equation*}
+\tilde{B}^{DVRNHFS}=\{(\hat{x},T_{\tilde{B}^{DVRNHFS}}(\hat{x}),U_{\tilde{B}^{DVRNHFS}}(\hat{x}),C_{\tilde{B}^{DVRNHFS}}(\hat{x}),F_{\tilde{B}^{DVRNHFS}}(\hat{x})) : \hat{x} \in \hat{X}\}, \end{equation*}
+\begin{equation*}\tilde{C}^{DVRNHFS}=\{(\hat{x},T_{\tilde{C}^{DVRNHFS}}(\hat{x}),U_{\tilde{C}^{DVRNHFS}}(\hat{x}),C_{\tilde{C}^{DVRNHFS}}(\hat{x}),F_{\tilde{C}^{DVRNHFS}}(\hat{x})) : \hat{x} \in \hat{X}\}\end{equation*}
+be the three DVRNHFS. Then\\
+ \textbf{Complement:}\\
+ Complement of $\tilde{A}^{DVRNHFS}$ is denoted as $(\tilde{A}^{DVRNHFS})^{c}$ and the complement of truth, indeterminacy leaning towards truth, indeterminacy leaning towards falsity and falsity membership functions are defined in Eq. \ref{ec1} to \ref{ec4} as:
+\begin{equation}
+\label{ec1}
+T_{(\tilde{A}^{DVRNHFS})^c}(\hat{x})=F_{\tilde{A}^{DVRNHFS}}(\hat{x})
+\end{equation}
+
+\begin{equation}
+\label{ec2}
+U_{(\tilde{A}^{DVRNHFS})^c}(\hat{x})=\bigcup_{U_{\tilde{A}^{DVRNHFS}}}\{1-U_{\tilde{A}^{DVRNHFS}}(\hat{x})\}
+\end{equation}
+
+\begin{equation}
+\label{ec3}
+C_{(\tilde{A}^{DVRNHFS})^c}(\hat{x})=\bigcup_{C_{\tilde{A}^{DVRNHFS}}}\{1-C_{\tilde{A}^{DVRNHFS}}(\hat{x})\}
+\end{equation}
+
+\begin{equation}
+\label{ec4}
+F_{(\tilde{A}^{DVRNHFS})^c}(\hat{x})=T_{\tilde{A}^{DVRNHFS}}(\hat{x})
+\end{equation}
+%% FIX: bare number [37] replaced by a proper citation
+Truth and falsity components are complemented, but the two refined indeterminacy components are negated instead of complemented. This is the classical neutrosophic complement of Smarandache \cite{Smarandache:1998}, where the degree of indeterminacy is instead the arithmetic complement of it, and $U$ and $C$ are independent degrees instead of being a complementary pair. The negation is elementwise applied to all the values of the associated hesitant set.\\
+ \textbf{Inclusion:}\\
+ Inclusion of two DVRNHFS $\tilde{A}^{DVRNHFS}$ and $\tilde{B}^{DVRNHFS}$ is defined in Eq. \ref{ei1} to \ref{ei4} as:
+ $$\tilde{A}^{DVRNHFS}\subseteq \tilde{B}^{DVRNHFS}$$ if and only if
+ $\forall\, \hat{x} \in \hat{X}$
+ \begin{equation}
+\label{ei1}
+{T_{\tilde{A}^{DVRNHFS}}}(\hat{x}) \subseteq {T_{\tilde{B}^{DVRNHFS}}}(\hat{x})
+\end{equation}
+
+\begin{equation}
+\label{ei2}
+{U_{\tilde{A}^{DVRNHFS}}}(\hat{x}) \subseteq {U_{\tilde{B}^{DVRNHFS}}}(\hat{x})
+\end{equation}
+
+\begin{equation}
+\label{ei3}
+{C_{\tilde{A}^{DVRNHFS}}}(\hat{x}) \supseteq {C_{\tilde{B}^{DVRNHFS}}}(\hat{x})
+\end{equation}
+
+\begin{equation}
+\label{ei4}
+{F_{\tilde{A}^{DVRNHFS}}}(\hat{x}) \supseteq {F_{\tilde{B}^{DVRNHFS}}}(\hat{x})
+\end{equation}
+The truth and the indeterminacy leaning towards truth are acceptance grades, they increase with the inclusion, the indeterminacy leaning towards falsity and the falsity are rejection grades, they decrease with the inclusion. This is the same ordering as the union and intersection described below, where $T$ and $U$ are aggregated by maximum and $C$ and $F$ are aggregated by minimum.
+\textbf{Equality:}\\
+ Equality of two DVRNHFS $\tilde{A}^{DVRNHFS}$ and $\tilde{B}^{DVRNHFS}$ is defined in Eq. \ref{eq1} to \ref{eq4} mathematically as:
+ $$\tilde{A}^{DVRNHFS}= \tilde{B}^{DVRNHFS}$$ if and only if
+ $\forall\, \hat{x} \in \hat{X}$
+\begin{equation}
+\label{eq1}
+{T_{\tilde{A}^{DVRNHFS}}}(\hat{x}) = {T_{\tilde{B}^{DVRNHFS}}}(\hat{x})
+\end{equation}
+
+\begin{equation}
+\label{eq2}
+{U_{\tilde{A}^{DVRNHFS}}}(\hat{x}) = {U_{\tilde{B}^{DVRNHFS}}}(\hat{x})
+\end{equation}
+
+\begin{equation}
+\label{eq3}
+{C_{\tilde{A}^{DVRNHFS}}}(\hat{x}) = {C_{\tilde{B}^{DVRNHFS}}}(\hat{x})
+\end{equation}
+
+\begin{equation}
+\label{eq4}
+{F_{\tilde{A}^{DVRNHFS}}}(\hat{x}) = {F_{\tilde{B}^{DVRNHFS}}}(\hat{x})
+\end{equation}
+\textbf{Union:}
+The truth, leaning towards truth and falsity and falsity membership functions of the union $\tilde{A}^{DVRNHFS}\cup \tilde{B}^{DVRNHFS}$ of two DVRNHFS $\tilde{A}^{DVRNHFS}$ and $\tilde{B}^{DVRNHFS}$ are defined in Eq. \ref{eu1} to \ref{eu4}  as:
+\begin{equation}
+\label{eu1}
+T_{\tilde{A}^{DVRNHFS}\cup \tilde{B}^{DVRNHFS}}(\hat{x}) = \bigcup \max\{T_{\tilde{A}^{DVRNHFS}},T_{\tilde{B}^{DVRNHFS}}\}
+\end{equation}
+
+\begin{equation}
+\label{eu2}
+U_{\tilde{A}^{DVRNHFS}\cup \tilde{B}^{DVRNHFS}}(\hat{x}) = \bigcup \max\{U_{\tilde{A}^{DVRNHFS}},U_{\tilde{B}^{DVRNHFS}}\}
+\end{equation}
+
+\begin{equation}
+\label{eu3}
+C_{\tilde{A}^{DVRNHFS}\cup \tilde{B}^{DVRNHFS}}(\hat{x}) = \bigcup \min\{C_{\tilde{A}^{DVRNHFS}},C_{\tilde{B}^{DVRNHFS}}\}
+\end{equation}
+
+\begin{equation}
+\label{eu4}
+F_{\tilde{A}^{DVRNHFS}\cup \tilde{B}^{DVRNHFS}}(\hat{x}) = \bigcup \min\{F_{\tilde{A}^{DVRNHFS}},F_{\tilde{B}^{DVRNHFS}}\}
+\end{equation}
+\textbf{Intersection:}
+The truth, indeterminacy leaning towards truth and falsity and indeterminacy leaning towards falsity membership functions of the intersection $\tilde{A}^{DVRNHFS}\cap \tilde{B}^{DVRNHFS}$ of two DVRNHFS $\tilde{A}^{DVRNHFS}$ and $\tilde{B}^{DVRNHFS}$ are defined in Eq. \ref{ei1int} to \ref{ei4int} as:
+\begin{equation}
+\label{ei1int}
+T_{\tilde{A}^{DVRNHFS}\cap \tilde{B}^{DVRNHFS}}(\hat{x}) = \bigcap \min\{T_{\tilde{A}^{DVRNHFS}},T_{\tilde{B}^{DVRNHFS}}\}
+\end{equation}
+
+\begin{equation}
+\label{ei2int}
+U_{\tilde{A}^{DVRNHFS}\cap \tilde{B}^{DVRNHFS}}(\hat{x}) = \bigcap \min\{U_{\tilde{A}^{DVRNHFS}},U_{\tilde{B}^{DVRNHFS}}\}
+\end{equation}
+
+\begin{equation}
+\label{ei3int}
+C_{\tilde{A}^{DVRNHFS}\cap \tilde{B}^{DVRNHFS}}(\hat{x}) = \bigcap \max\{C_{\tilde{A}^{DVRNHFS}},C_{\tilde{B}^{DVRNHFS}}\}
+\end{equation}
+
+\begin{equation}
+\label{ei4int}
+F_{\tilde{A}^{DVRNHFS}\cap \tilde{B}^{DVRNHFS}}(\hat{x}) = \bigcap \max\{F_{\tilde{A}^{DVRNHFS}},F_{\tilde{B}^{DVRNHFS}}\}
+\end{equation}
+Below are a few results which are quite obvious from the definition of union, intersection and complement.
+\begin{enumerate}
+  \item $\tilde{A}^{DVRNHFS}\cup\tilde{A}^{DVRNHFS}=\tilde{A}^{DVRNHFS}$
+  \item $\tilde{A}^{DVRNHFS}\cap\tilde{A}^{DVRNHFS}=\tilde{A}^{DVRNHFS}$
+  \item $\tilde{A}^{DVRNHFS}\cup\tilde{B}^{DVRNHFS}=\tilde{B}^{DVRNHFS}\cup\tilde{A}^{DVRNHFS}$
+  \item $\tilde{A}^{DVRNHFS}\cap\tilde{B}^{DVRNHFS}=\tilde{B}^{DVRNHFS}\cap\tilde{A}^{DVRNHFS}$
+\item $\tilde{A}^{DVRNHFS}\cup(\tilde{B}^{DVRNHFS}\cap\tilde{C}^{DVRNHFS})=(\tilde{A}^{DVRNHFS}\cup\tilde{B}^{DVRNHFS})\cap (\tilde{A}^{DVRNHFS}\cup \tilde{C}^{DVRNHFS})$
+  \item $\tilde{A}^{DVRNHFS}\cap(\tilde{B}^{DVRNHFS}\cup\tilde{C}^{DVRNHFS})=(\tilde{A}^{DVRNHFS}\cap\tilde{B}^{DVRNHFS})\cup (\tilde{A}^{DVRNHFS}\cap \tilde{C}^{DVRNHFS})$
+  \item $((\tilde{A}^{DVRNHFS})^{c})^{c}=\tilde{A}^{DVRNHFS}$
+\end{enumerate}
+\section{Proposed Methodology}
+\noindent Consider a multi-objective optimization problem with respect to constraints defined in Eqs. \ref{eq39} to \ref{eq40} ,
+\begin{equation}
+\label{eq39}
+\text{Minimize or Maximize} \; \{f_l(\mathbf{x})\} \qquad \qquad l=1,2,\ldots,p
+\end{equation}
+such that
+\begin{equation}
+\label{eq40}
+g_j(\mathbf{x}) \leq b_j, \qquad\qquad j=1,2,\ldots, q.
+\end{equation}
+%% FIX (typography only): the macro \c{x} rendered the variable as a cedilla-x.
+%% All occurrences replaced by \mathbf{x}; no methodological content changed.
+The decision set $h_{d}$ is defined in Eq. \ref{eq42} to \ref{eq45}  as a combination of double-valued neutrosophic hesitant objectives and constraints, where the design variables and objective functions are represented by $\mathbf{x}$ and ${f}_i(\mathbf{x})$, respectively. The constraint functions are represented by ${g}_j(\mathbf{x})$, and the number of objective functions and constraints are denoted by \textit{p} and \textit{q}, respectively.
+\begin{align}
+\label{eq42}
+T_{h_{d}} &= \{ T^{E_m}(f_1(\mathbf{x})) \wedge T^{E_m}(f_2(\mathbf{x})), \ldots, \wedge T^{E_m}(f_p(\mathbf{x})) \} \\
+U_{h_{d}} &= \{ U^{E_m}(f_1(\mathbf{x})) \wedge U^{E_m}(f_2(\mathbf{x})), \ldots, \wedge U^{E_m}(f_p(\mathbf{x})) \} \\
+C_{h_{d}} &= \{ C^{E_m}(f_1(\mathbf{x})) \vee C^{E_m}(f_2(\mathbf{x})), \ldots, \vee C^{E_m}(f_p(\mathbf{x})) \} \\
+\label{eq45}
+F_{h_{d}} &= \{ F^{E_m}(f_1(\mathbf{x})) \vee F^{E_m}(f_2(\mathbf{x})), \ldots, \vee F^{E_m}(f_p(\mathbf{x})) \}
+\end{align}
+Using the intersection and union operations \ref{ope}, equivalent decision set is presented in Eq. \ref{eq46} to \ref{eq49}
+\begin{align}
+\label{eq46}
+T_{h_{d}} &= \min\{ T^{E_m}(f_1(\mathbf{x})), T^{E_m}(f_2(\mathbf{x})), \ldots, T^{E_m}(f_p(\mathbf{x})) \} \\
+U_{h_{d}} &= \min\{ U^{E_m}(f_1(\mathbf{x})), U^{E_m}(f_2(\mathbf{x})), \ldots, U^{E_m}(f_p(\mathbf{x})) \} \\
+C_{h_{d}} &= \max\{ C^{E_m}(f_1(\mathbf{x})), C^{E_m}(f_2(\mathbf{x})), \ldots, C^{E_m}(f_p(\mathbf{x})) \}\\
+\label{eq49}
+F_{h_{d}} &= \max\{ F^{E_m}(f_1(\mathbf{x})), F^{E_m}(f_2(\mathbf{x})), \ldots, F^{E_m}(f_p(\mathbf{x})) \}
+\end{align}
+Here $E_m$ denotes the $m$-th decision maker, $m = 1,2,\ldots,M$, and $T_{h_d}$, $U_{h_d}$, $C_{h_d}$, $F_{h_d}$ are the hesitant grades of truth, indeterminacy leaning towards truth, indeterminacy leaning towards falsity and falsity of the DVRNHF decision. In this case, the goal is to maximize the degrees of acceptance (truth and indeterminacy leaning towards truth) and minimize the degrees of rejection (falsity and indeterminacy leaning towards falsity). Therefore, the corresponding hesitant membership functions are defined in Eq. \ref{eq50} to \ref{eq53}  as follows:\\
+\noindent\textbf{Possible truth membership function}
+\begin{equation}
+\label{eq50}
+T^{E_m}(f_p(\mathbf{x})) =
+\begin{cases}
+1 & \text{if } f_p(\mathbf{x}) \le \breve{L}^{T}_{p}\\[6pt]
+\varphi_m\left(\dfrac{\breve{U}^{T}_{p}-f_p(\mathbf{x})}{\breve{U}^{T}_{p}-\breve{L}^{T}_{p}}\right)
+& \text{if } \breve{L}^{T}_{p} \le f_p(\mathbf{x}) \le \breve{U}^{T}_{p}\\[10pt]
+0 & \text{if } f_p(\mathbf{x}) \ge \breve{U}^{T}_{p}
+\end{cases}
+\end{equation}
+\noindent\textbf{Possible indeterminacy leaning towards truth membership function}
+\begin{equation}
+\label{eq51}
+U^{E_m}(f_p(\mathbf{x})) =
+\begin{cases}
+1 & \text{if } f_p(\mathbf{x}) \le \breve{L}^{U}_{p}\\[6pt]
+\varphi_m\left(\dfrac{\breve{U}^{U}_{p}-f_p(\mathbf{x})}{\breve{U}^{U}_{p}-\breve{L}^{U}_{p}}\right)
+& \text{if } \breve{L}^{U}_{p} \le f_p(\mathbf{x}) \le \breve{U}^{U}_{p}\\[10pt]
+0 & \text{if } f_p(\mathbf{x}) \ge \breve{U}^{U}_{p}
+\end{cases}
+\end{equation}
+\noindent\textbf{Possible indeterminacy leaning towards falsity membership function}
+\begin{equation}
+\label{eq52}
+C^{E_m}(f_p(\mathbf{x})) =
+\begin{cases}
+0 & \text{if } f_p(\mathbf{x}) \le \breve{L}^{C}_{p}\\[6pt]
+\varphi_m\left(\dfrac{f_p(\mathbf{x})-\breve{L}^{C}_{p}}{\breve{U}^{C}_{p}-\breve{L}^{C}_{p}}\right)
+& \text{if } \breve{L}^{C}_{p} \le f_p(\mathbf{x}) \le \breve{U}^{C}_{p}\\[10pt]
+1 & \text{if } f_p(\mathbf{x}) \ge \breve{U}^{C}_{p}
+\end{cases}
+\end{equation}
+\noindent\textbf{Possible falsity membership function}
+\begin{equation}
+\label{eq53}
+F^{E_m}(f_p(\mathbf{x})) =
+\begin{cases}
+0 & \text{if } f_p(\mathbf{x}) \le \breve{L}^{F}_{p}\\[6pt]
+\varphi_m\left(\dfrac{f_p(\mathbf{x})-\breve{L}^{F}_{p}}{\breve{U}^{F}_{p}-\breve{L}^{F}_{p}}\right)
+& \text{if } \breve{L}^{F}_{p} \le f_p(\mathbf{x}) \le \breve{U}^{F}_{p}\\[10pt]
+1 & \text{if } f_p(\mathbf{x}) \ge \breve{U}^{F}_{p}
+\end{cases}
+\end{equation}
+%% FIX (notation only): the decision-maker grade is written phi_m in Eqs. (49)-(52)
+%% and varphi_m in Eqs. (58)-(61), while phi is also the minimum service level of
+%% Section 3. The decision-maker grade is now varphi_m everywhere and phi is
+%% reserved for the service level.
+Where $\varphi_m$ is the membership degree assigned by the $m$-th decision maker and ${\breve{U}_p}$ and ${\breve{L}_p}$ are upper and lower bounds of the $p^{th}$ objective function, obtained from the pay-off matrix with superscripts correspond to the truth, falsity, and indeterminacy leaning toward truth and falsity.
+The membership functions in Eq. \ref{eq54} to \ref{eq57} over the domain D are given by
+\begin{equation}
+\label{eq54}
+T_{h_{d}} = \max_{m} \left\{ \min_{p} \{ T^{E_m}(f_1(\mathbf{x})), T^{E_m}(f_2(\mathbf{x})), \ldots, T^{E_m}(f_p(\mathbf{x})) \} \right\}
+\end{equation}
+\begin{equation}
+U_{h_{d}} = \max_{m} \left\{ \min_{p} \{ U^{E_m}(f_1(\mathbf{x})), U^{E_m}(f_2(\mathbf{x})), \ldots, U^{E_m}(f_p(\mathbf{x})) \} \right\}
+\end{equation}
+\begin{equation}
+C_{h_{d}} = \min_{m} \left\{ \max_{p} \{ C^{E_m}(f_1(\mathbf{x})), C^{E_m}(f_2(\mathbf{x})), \ldots, C^{E_m}(f_p(\mathbf{x})) \} \right\}
+\end{equation}
+\begin{equation}
+\label{eq57}
+F_{h_{d}} = \min_{m} \left\{ \max_{p} \{ F^{E_m}(f_1(\mathbf{x})), F^{E_m}(f_2(\mathbf{x})), \ldots, F^{E_m}(f_p(\mathbf{x})) \} \right\}
+\end{equation}
+For the purpose of simplification, new variables, namely $\alpha_n$, $\gamma_n$, $\delta_n$, and $\beta_n$, are introduced, and subsequently substituted for $\min\{T^{E_m}(f_l{(\mathbf{x})})\}$, $\min\{U^{E_m}(f_l{(\mathbf{x})})\}$, $\max\{C^{E_m}(f_l{(\mathbf{x})})\}$, $\max\{F^{E_m}(f_l{(\mathbf{x})})\}$  respectively, where $l=1,2,\ldots, p$ yields corresponding remodeled conventional optimization in Eq. \ref{eq58}
+\begin{equation}
+\label{eq58}
+\begin{aligned}
+&\text{Maximize } \frac{(\hat{\alpha}_1+\hat{\alpha}_2+\ldots+\hat{\alpha}_n)}{n}-\frac{\hat{\beta}_1+\hat{\beta}_2+\ldots+\hat{\beta}_n}{n}+\frac{\hat{\gamma}_1+\hat{\gamma}_2+\ldots+\hat{\gamma}_n}{n}-\frac{\hat{\delta}_1+\hat{\delta}_2+\ldots+\hat{\delta}_n}{n} \\
+&\text{subject to:} \\
+&T^{E_m}(f_p(\mathbf{x}))\geq \hat{\alpha}_n, \\
+&U^{E_m}(f_p(\mathbf{x}))\geq \hat{\gamma}_n, \\
+&F^{E_m}(f_p(\mathbf{x}))\leq \hat{\beta}_n, \\
+&C^{E_m}(f_p(\mathbf{x}))\leq \hat{\delta}_n, \\
+&\hat{\alpha}_n\geq \hat{\beta}_n, \quad \hat{\alpha}_n\geq\hat{\gamma}_n, \quad \hat{\alpha}_n\geq \hat{\delta}_n, \\
+&\mathbf{x} \geq 0, \quad 0 \leq \hat{\alpha}_n \leq 1, \quad 0\leq \hat{\beta}_n \leq 1, \\
+&0\leq \hat{\gamma}_n \leq 1, \quad 0\leq \hat{\delta}_n \leq 1, \\
+&{g}_j(\mathbf{x})\leq {b}_{j}, \quad j=1,2,\ldots, q, \\
+&\text{where } n=1,2,\ldots,p.
+\end{aligned}
+\end{equation}
+
+
+\noindent If the goal is to maximize the given objective function, then the extent of truth must be increased while ensuring that the extent of falsity and of indeterminacy leaning towards falsity remains at a minimum. Then corresponding membership function is defined in Eq. \ref{eq59} to \ref{eq62} as:\\
+Possible truth membership function
+\begin{equation}
+\label{eq59}
+{T^{E_m}}(f_p(\mathbf{x}))=
+\left\{
+\begin{array}{ll}
+      0 & \text{if } f_p(\mathbf{x}) \leq {\breve{L}_p}^{T} \\
+      \varphi_m\left(\frac{f_p(\mathbf{x})-{\breve{L}_p}^{T}}{{\breve{U}_p}^{T}-{\breve{L}_p}^{T}}\right) & \text{if } {\breve{L}_p}^{T} \leq f_p(\mathbf{x}) \leq {\breve{U}_p}^{T} \\
+      1 & \text{if } f_p(\mathbf{x}) \geq {\breve{U}_p}^{T} \\
+\end{array}
+\right.
+\end{equation}
+
+\noindent Possible indeterminacy leaning towards truth membership function
+\begin{equation}
+{U^{E_m}}(f_p(\mathbf{x}))=
+\left\{
+\begin{array}{ll}
+      0 & \text{if } f_p(\mathbf{x}) \leq {\breve{L}_p}^{U} \\
+      \varphi_m\left(\frac{f_p(\mathbf{x})-{\breve{L}_p}^{U}}{{\breve{U}_p}^{U}-{\breve{L}_p}^{U}}\right) & \text{if } {\breve{L}_p}^{U} \leq f_p(\mathbf{x}) \leq {\breve{U}_p}^{U} \\
+      1 & \text{if } f_p(\mathbf{x}) \geq {\breve{U}_p}^{U} \\
+\end{array}
+\right.
+\end{equation}
+\noindent Possible indeterminacy leaning towards falsity  membership function
+\begin{equation}
+{C^{E_m}}(f_p(\mathbf{x}))=
+\left\{
+\begin{array}{ll}
+      1 & \text{if } f_p(\mathbf{x}) \leq {\breve{L}_p}^{C} \\
+      \varphi_m\left(\frac{{\breve{U}_p}^{C}-f_p(\mathbf{x})}{{\breve{U}_p}^{C}-{\breve{L}_p}^{C}}\right) & \text{if } {\breve{L}_p}^{C} \leq f_p(\mathbf{x}) \leq {\breve{U}_p}^{C} \\
+      0 & \text{if } f_p(\mathbf{x}) \geq {\breve{U}_p}^{C} \\
+\end{array}
+\right.
+\end{equation}
+
+\noindent Possible falsity membership function
+\begin{equation}
+\label{eq62}
+{F^{E_m}}(f_p(\mathbf{x}))=
+\left\{
+\begin{array}{ll}
+      1 & \text{if } f_p(\mathbf{x}) \leq {\breve{L}_p}^{F} \\
+      \varphi_m\left(\frac{{\breve{U}_p}^{F}-f_p(\mathbf{x})}{{\breve{U}_p}^{F}-{\breve{L}_p}^{F}}\right) & \text{if } {\breve{L}_p}^{F} \leq f_p(\mathbf{x}) \leq {\breve{U}_p}^{F} \\
+      0 & \text{if } f_p(\mathbf{x}) \geq {\breve{U}_p}^{F} \\
+\end{array}
+\right.
+\end{equation}
+
+\section{Computational Algorithm}
+\label{s5}
+\noindent
+Multi-objective optimization addresses multiple objectives simultaneously, and in the optimization process, the objective-function values are rarely close to the targets. Decision making in this context is usually categorized into four cases: falsity, truth, indeterminacy leaning towards truth and indeterminacy leaning towards falsity. Falsity shows the results deviate from what is expected; truth shows the results meet the requirements; indeterminacy towards truth indicates requirements are likely to be met but not conclusively, and indeterminacy toward falsity indicates requirements are likely not to be met but not conclusively. To solve these challenges, decision makers should explicitly consider all four cases to achieve realistic solutions from multi-objective optimization. When information is uncertain or incomplete, the conventional methods tend to provide an unsatisfactory optimum. For such uncertain and imprecise information, a double-valued refined neutrosophic hesitant optimization is proposed and used to provide practical solutions.\\
+Integrating double-valued refined neutrosophic and hesitant ideas divides possible indeterminacy into two parts for more naturalistic aspects. This divide makes neutrosophic theory more flexible in numerous fields. Thus, it better captures the complexity and ambiguity of real-world decision-making and problems. This integration also provides a thorough and accurate representation of real-life problems' truth-false indeterminacy. Because it considers membership degrees, the double-valued refined neutrosophic hesitant environment can handle real-world problems' complexity and ambiguity. This improves decision-making and outcomes since the fuzzy decision is where the fuzzy objective and constraint intersect. \\
+First, solve each objective function within the limits and get the result for each function and decision variable. After that, these decision variable values are used for the remaining objective functions. A pay-off matrix in Eq. \ref{eq63} is constructed. The first step in building membership functions for each objective function is finding lower and upper bounds from the pay-off matrix.\\
+
+\begin{equation}
+\label{eq63}
+\begin{bmatrix}
+f^*_1({x^1}) & f_2({x^1}) & \cdots & f_p({x^1}) \\
+f_1({x^2}) & f^*_2({x^2}) & \cdots & f_p({x^2}) \\
+\vdots & \vdots & \ddots & \vdots \\
+f_1({x^r}) & f_2({x^r}) & \cdots & f^*_p({x^r})
+\end{bmatrix}
+\end{equation}
+
+%% FIX: "\noindentBounds" was an undefined control sequence and prevented the
+%% document from compiling. A space has been inserted.
+\noindent Bounds for each objective are in Eq. \ref{eq64} to \ref{eq67} as follows, where $s_F$, $s_U$ and
+$s_C$ lie in $(0,1)$ and are taken as $s_F=0.3$, $s_U=0.4$ and $s_C=0.6$.\\
+For truth:
+\begin{equation}
+\label{eq64}
+{\breve{U}_p}^{T} = \max\{f_p(x^r)\} \quad \text{and} \quad {\breve{L}_p}^{T} = \min\{f_p(x^r)\}
+\end{equation}
+\noindent where $r=1,2,...,p$.\\
+For falsity:
+\begin{equation}
+\label{eq65}
+{{\breve{U}}_p}^{F}={\breve{U}_p}^{T} \quad \text{and} \quad {\breve{L}_p}^{F}={\breve{L}_p}^{T}+ s_F ({\breve{U}_p}^{T}-{\breve{L}_p}^{T})
+\end{equation}
+For indeterminacy leaning towards truth:
+\begin{equation}
+\label{eq66}
+{\breve{L}_p}^{U}={\breve{L}_p}^{T}\quad \text{and} \quad {\breve{U}_p}^{U}={\breve{L}_p}^{T}+s_U({\breve{U}_p}^{T}-{\breve{L}_p}^{T})
+\end{equation}
+For indeterminacy leaning towards falsity:
+\begin{equation}
+\label{eq67}
+{\breve{L}_p}^{C}={\breve{L}_p}^{F}\quad \text{and} \quad {\breve{U}_p}^{C}={\breve{L}_p}^{F}+s_C({\breve{U}_p}^{F}-{\breve{L}_p}^{F}),
+\end{equation}
+%% FIX: the sentence defining s_F, s_U, s_C appeared both before Eq. (63) and
+%% after Eq. (66); the duplicate has been removed.
+\noindent Here, objectives display inconsistent attributes, making it highly challenging to assign precise values to the degrees of membership associated with truth, falsity, indeterminacy leaning towards truth, and indeterminacy leaning towards falsity in such situations. Decision makers have the flexibility to choose their preferred degree, specifying a range of values for each grade, providing them with a more nuanced approach to decision-making that takes into account the uncertainties present in the decision-making process. Therefore, by using the lower and upper bounds for each objective function, we have defined the membership functions expressed in Section $6$.\\
+By using the membership grades and fuzzy decision, a double-valued refined neutrosophic hesitant fuzzy optimization model is converted into given crisp optimization problem in Eq. \ref{eq68} as:
+\begin{equation}
+\label{eq68}
+\begin{aligned}
+\text{Maximize } & \frac{(\hat{\alpha}_1+\hat{\alpha}_2+\ldots+\hat{\alpha}_n)}{n}-\frac{\hat{\beta}_1+\hat{\beta}_2+\ldots+\hat{\beta}_n}{n} +\frac{\hat{\gamma}_1+\hat{\gamma}_2+\ldots+\hat{\gamma}_n}{n}-\frac{\hat{\delta}_1+\hat{\delta}_2+\ldots+\hat{\delta}_n}{n} \\
+\text{Subject to } \\& {T^{E_m}}(f_p(\mathbf{x}))\geq\hat{\alpha}_n, \\
+& {U^{E_m}}(f_p(\mathbf{x}))\geq \hat{\gamma}_n, \\
+& {F^{E_m}}(f_p(\mathbf{x}))\leq \hat{\beta}_n, \\
+& {C^{E_m}}(f_p(\mathbf{x}))\leq \hat{\delta}_n, \\
+& \hat{\alpha}_n\geq \hat{\beta}_n, \quad \hat{\alpha}_n\geq\hat{\gamma}_n, \quad \hat{\alpha}_n\geq \hat{\delta}_n, \\
+& \mathbf{x}\geq 0, \quad 0\leq \hat{\alpha}_n \leq 1, \quad  0\leq \hat{\beta}_n \leq 1, \quad  0\leq \hat{\gamma}_n \leq 1, \\
+& 0\leq \hat{\delta}_n \leq 1, \\
+& {g}_j({\mathbf{x}})\leq {b}_{j}, \quad j=1,2,\ldots, q.
+\end{aligned}
+\end{equation}
+The flowchart for the given optimization technique is Figure \ref{f2}.
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.6\textwidth]{fc.jpg}
+\caption{The flowchart of double-valued refined neutrosophic hesitant fuzzy optimization}
+\label{f2}
+\end{figure}
+\section{Application of the proposed model}
+\label{s7}
+The model is used in a national immunization programme that is operated as a public--private partnership. Seven private suppliers and six donor agencies are providing vaccine to four national distribution centres (NDCs). The doses are then transported to six regional distribution centres (RDCs) and finally twenty hospitals over $3$ periods of planning. The demand for each hospital is $12,750$ doses per period, so that the system-wide demand is $255,000$ doses per period and $765,000$ doses over the 3-period horizon.\\
+The instance has been deliberately designed to be tightly built. The combined capacity of suppliers is 160,000 doses per period and the capacity of donors is 150,000, so that total upstream capacity is approximately $1.2$ times demand. The six RDCs can store $308,000$ doses per period between them, which is also close to demand. The service floor is $\phi = 0.90$, the vehicle capacity is 10,000 doses, the amount of fuel required per km is 0.035 litres, the cost of fuel is $1.55$ dollars per litre and the programme budget is $1.5$ billion dollars. The corruption index of each entity is divided into a structural and a transactional component with $\theta = 0.5$, and the normalization quantity is $\breve{Q} = 12,750$ doses. The data at the entity level are presented in Tables \ref{tab:supplier} - \ref{tab:dc}, and the three decision makers' hesitant grades are $\{1.00, 0.96, 0.92\}$.
+\begin{table}[h!]
+\centering
+\caption{Supplier data: unit price, per-period capacity, one-time opening cost and corruption index.}
+\label{tab:supplier}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{Supplier} & \textbf{Price} & \textbf{Capacity} & \textbf{Opening cost} & \textbf{CI} \\
+ & \textbf{(\$/dose)} & \textbf{(doses/period)} & \textbf{(\$)} & \\
+\midrule
+U1 & 4.2 & 24{,}000 & 40{,}000 & 0.10 \\
+U2 & 4.5 & 23{,}000 & 45{,}000 & 0.15 \\
+U3 & 4.8 & 23{,}000 & 50{,}000 & 0.25 \\
+U4 & 5.0 & 24{,}000 & 60{,}000 & 0.20 \\
+U5 & 5.3 & 22{,}000 & 70{,}000 & 0.30 \\
+U6 & 5.7 & 22{,}000 & 42{,}000 & 0.18 \\
+U7 & 6.0 & 22{,}000 & 48{,}000 & 0.22 \\
+\midrule
+\textbf{Total} & & \textbf{160{,}000} & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[h!]
+\centering
+\caption{Donor data: per-period capacity, one-time opening cost and corruption index.}
+\label{tab:donor}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Donor} & \textbf{Capacity} & \textbf{Opening cost} & \textbf{CI} \\
+ & \textbf{(doses/period)} & \textbf{(\$)} & \\
+\midrule
+V1 & 26{,}000 & 15{,}000 & 0.08 \\
+V2 & 26{,}000 & 18{,}000 & 0.10 \\
+V3 & 26{,}000 & 20{,}000 & 0.12 \\
+V4 & 24{,}000 & 22{,}000 & 0.15 \\
+V5 & 24{,}000 & 25{,}000 & 0.20 \\
+V6 & 24{,}000 & 17{,}000 & 0.18 \\
+\midrule
+\textbf{Total} & \textbf{150{,}000} & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[h!]
+\centering
+\caption{Distribution centre data: storage capacity, opening cost, holding cost, pre-positioned initial stock and corruption index.}
+\label{tab:dc}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\textbf{Centre} & \textbf{Storage} & \textbf{Opening cost} & \textbf{Holding cost} & \textbf{Initial stock} & \textbf{CI} \\
+ & \textbf{(doses)} & \textbf{(\$)} & \textbf{(\$/dose)} & \textbf{(doses)} & \\
+\midrule
+NDC 1 & 500{,}000 & 950{,}000    & 0.45 & 1{,}000 & 0.05 \\
+NDC 2 & 600{,}000 & 1{,}000{,}000 & 0.50 & 1{,}500 & 0.07 \\
+NDC 3 & 700{,}000 & 1{,}050{,}000 & 0.55 & 2{,}000 & 0.09 \\
+NDC 4 & 800{,}000 & 1{,}000{,}000 & 0.60 & 1{,}200 & 0.06 \\
+\midrule
+RDC 1 & 45{,}000 & 200{,}000 & 0.30 & 500     & 0.09 \\
+RDC 2 & 48{,}000 & 220{,}000 & 0.35 & 600     & 0.11 \\
+RDC 3 & 50{,}000 & 250{,}000 & 0.40 & 700     & 0.10 \\
+RDC 4 & 52{,}000 & 270{,}000 & 0.45 & 800     & 0.14 \\
+RDC 5 & 55{,}000 & 300{,}000 & 0.50 & 900     & 0.13 \\
+RDC 6 & 58{,}000 & 240{,}000 & 0.55 & 1{,}000 & 0.15 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\section{Solution Methodology}
+\label{s6}
+\noindent To address the challenges posed by inconsistent, ambiguous, and imprecise parameters in the MOLP problem of the supply chain network, the double-valued-refined-neutrosophic hesitant fuzzy (DVRNHF) strategy was implemented. This strategy involves assigning each object in the set X to possible truth, indeterminacy leaning towards truth, indeterminacy leaning towards falsity and falsity membership functions, with T, U, C, and F being the respective real values in $[0, 1]$. Although fuzzy programming has been applied to solve a variety of design and management problems, traditional methods for dealing with ambiguous data do not account for indeterminate solutions. The novel DVRNHF optimization approach overcomes this limitation by optimizing the objective function and decision variables in a hesitant environment, which results in double-valued refined neutrosophic hesitant constraints. This refined model effectively handles uncertainty, and the DVRNH multi-objective optimization model is capable of addressing uncertain data, making it a practical solution for imprecise parameters.\\
+In the first step, solve the first objective function for given constraints, find the values of decision variables, and use these values of the decision variable in the remaining objective function to find their values. Repeating in this way, find the value of each objective function, and the resultant payoff table is developed in Eq. \ref{e1}.
+\begin{equation}\label{e1}
+\text{Pay-off} = \begin{bmatrix}
+3473404.16 & 9.48 & 0.90 \\
+3590410.50 & 9.16 & 0.90 \\
+8410676.72 & 13.32 & 1.00
+\end{bmatrix}
+\end{equation}
+%% NOTE: the third row of the pay-off matrix is the mitigation-optimal solve.
+%% The sentence below makes the trade-off it encodes explicit, because it is the
+%% economic content of the matrix and is otherwise left for the reader to infer.
+The third row shows the price of the last increment of coverage: driving $\lambda$ to unity raises the cost to $8,410,676.72$ and the corruption index to $13.32$, against $3,473,404.16$ and $9.48$ at the cost-optimal vertex. The compromise reported in Section 11 sits between these extremes.\\
+\noindent Lower and upper bounds of possible truth membership for each objective is in Eq. \ref{eq70}.
+\begin{equation}
+\label{eq70}
+\begin{aligned}
+{\breve{L}_1}^{T} &= 3473404.16, & {\breve{U}_1}^{T} &= 8410676.72 \\
+{\breve{L}_2}^{T} &= 9.16,       & {\breve{U}_2}^{T} &= 13.32 \\
+{\breve{L}_3}^{T} &= 0.90,       & {\breve{U}_3}^{T} &= 1.00
+\end{aligned}
+\end{equation}
+
+\noindent Lower and upper bounds of possible falsity membership for each objective is in Eq. \ref{eq71}.
+\begin{equation}
+\label{eq71}
+\begin{aligned}
+{\breve{L}_1}^{F} &= 4954585.93, & {\breve{U}_1}^{F} &= 8410676.72 \\
+{\breve{L}_2}^{F} &= 10.41,      & {\breve{U}_2}^{F} &= 13.32 \\
+{\breve{L}_3}^{F} &= 0.93,       & {\breve{U}_3}^{F} &= 1.00
+\end{aligned}
+\end{equation}
+
+\noindent Lower and upper bounds of possible indeterminacy towards truth membership for each objective is in Eq. \ref{eq72}.
+\begin{equation}
+\label{eq72}
+\begin{aligned}
+{\breve{L}_1}^{U} &= 3473404.16, & {\breve{U}_1}^{U} &= 5448313.18 \\
+{\breve{L}_2}^{U} &= 9.16,       & {\breve{U}_2}^{U} &= 10.83 \\
+{\breve{L}_3}^{U} &= 0.90,       & {\breve{U}_3}^{U} &= 0.94
+\end{aligned}
+\end{equation}
+
+\noindent Lower and upper bounds of possible indeterminacy towards falsity membership for each objective is in Eq. \ref{eq73}.
+\begin{equation}
+\label{eq73}
+\begin{aligned}
+{\breve{L}_1}^{C} &= 4954585.93, & {\breve{U}_1}^{C} &= 7028240.40 \\
+{\breve{L}_2}^{C} &= 10.41,      & {\breve{U}_2}^{C} &= 12.16 \\
+{\breve{L}_3}^{C} &= 0.93,       & {\breve{U}_3}^{C} &= 0.97
+\end{aligned}
+\end{equation}
+
+Now possible truth membership of first objective function $Z_1(X^1)$ which is defined in Equation \ref{eqstar} is specified by the $1^{st}$ expert is as follows
+\begin{equation}
+T_1^{E_1}(Z_1(\mathbf{x})) = \left\{
+\begin{array}{ll}
+1 & Z_1(\mathbf{x}) \leq 3473404.16 \\[4pt]
+\dfrac{8410676.72 - Z_1}{8410676.72 - 3473404.16} & 3473404.16 \leq Z_1(\mathbf{x}) \leq 8410676.72 \\[6pt]
+0 & Z_1(\mathbf{x}) \geq 8410676.72
+\end{array}
+\right.
+\label{eqstar}
+\end{equation}
+similarly, rest of membership functions can be defined in the same manner.
+The converted crisp problem is defined in Eq. \ref{e75}
+$$\text{ Maximize }\frac{(\hat{\alpha}_1+\hat{\alpha}_2+\hat{\alpha}_3)}{3}-\frac{(\hat{\beta}_1+\hat{\beta}_2+\hat{\beta}_3)}{3}+\\ \frac{(\hat{\gamma}_1+\hat{\gamma}_2+\hat{\gamma}_3)}{3}-\frac{(\hat{\delta}_1+\hat{\delta}_2+\hat{\delta}_3)}{3}$$
+\begin{equation}
+\label{e75}
+\begin{split}
+8410676.72 - \Bigg[\;
+& \sum_{u}\kappa_u W_u + \sum_{v}\kappa_v W_v + \sum_{m}\kappa_m W_m + \sum_{r}\kappa_r W_r \\
+& + \sum_{t}\sum_{u}\sum_{m} P_{ut}\, Q_{umt}
+  + \sum_{t}\sum_{u}\sum_{m}\frac{\pi_f \pi_p d_{um}}{\omega}Q_{umt}
+  + \sum_{t}\sum_{v}\sum_{m}\frac{\pi_f \pi_p d_{vm}}{\omega}Q_{vmt} \\
+& + \sum_{t}\sum_{m}\sum_{r}\frac{\pi_f \pi_p d_{mr}}{\omega}Q_{mrt}
+  + \sum_{t}\sum_{r}\sum_{h}\frac{\pi_f \pi_p d_{rh}}{\omega}Q_{rht}
+  + \sum_{t}\sum_{m}\eta_m I_{mt} + \sum_{t}\sum_{r}\eta_r I_{rt}
+\;\Bigg] \\
+& \geq\ \hat{\alpha}_1\,(8410676.72 - 3473404.16)
+\end{split}
+\end{equation}
+%% NOTE: the mitigation objective is a maximization, so its membership functions
+%% run in the opposite direction (Eqs. 58-61). The corresponding truth constraint
+%% is given below so that both directions appear at least once.
+The mitigation objective is maximized, so its memberships follow Eqs. \ref{eq59}--\ref{eq62}; the corresponding truth constraint is
+\begin{equation}
+\label{e75b}
+\lambda - 0.90 \ \geq\ \hat{\alpha}_3\,(1.00-0.90).
+\end{equation}
+The remaining constraints are defined in the same manner, and the original problem's constraints of Section \ref{s4} are also included.\\
+$$\hat{\alpha}_n\geq \hat{\beta}_n, \quad \hat{\alpha}_n\geq \hat{\gamma}_n, \quad \hat{\alpha}_n\geq\hat{\delta}_n$$
+$$\mathbf{x}\geq 0,\quad 0\leq \hat{\alpha}_n \leq 1,\quad  0\leq \hat{\beta}_n \leq 1, \qquad  0\leq \hat{\gamma}_n \leq 1,\quad 0\leq \hat{\delta}_n \leq 1$$
+where $n=1,2,3$.
+The optimum objective values obtained by DVRNHFO are given in Table \ref{tab:dv-rnhfo} and the corresponding membership grades in Table \ref{tab:mg}.
+\section{Sensitivity Analysis}
+\label{s8}
+%% FIX: "known quantities that cannot be determined with absolute certainty" was
+%% self-contradictory.
+To evaluate the robustness of the model, sensitivity analysis is used to examine how parameters beyond managerial control influence each objective function. These parameters cannot be fixed with certainty in a national immunization programme: hospital demand will change as the epidemiology changes; supplier and donor capacity will depend on contracts that have yet to be signed; corruption indices are expert judgements, not measurements. To test the robustness of the model, the following three parameters were perturbed one at a time from the baseline value, while the other parameters were kept at their nominal values: the hospital demand $D_{ht}$, the upstream capacity, and the corruption index of every entity. The network cost $Z_1$, corruption index $Z_2$ and mitigation level $Z_3$ are reported in Table \ref{tab:sens} for each instance, which was re-solved using the DVRNHF method discussed in Section \ref{s6}.\\
+\begin{table}[h]
+\centering
+\small
+\caption{Sensitivity of the three objectives to perturbations in the parameters outside managerial control.}
+\label{tab:sens}
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ & \multicolumn{3}{c}{Demand $D_{ht}$} & \multicolumn{3}{c}{Upstream Capacity} & \multicolumn{3}{c}{Corruption Index $CI_i$} \\
+\cline{2-4}\cline{5-7}\cline{8-10}
+Change & $Z_1$ & $Z_2$ & $Z_3$ & $Z_1$ & $Z_2$ & $Z_3$ & $Z_1$ & $Z_2$ & $Z_3$ \\
+\hline
+$-20\%$ & 3,299,360 & 7.9116 & 1.0000 & 4,182,426 & 10.4127 & 0.9624 & 3,994,588 & 8.2366 & 0.9863 \\
+$-10\%$ & 3,847,054 & 9.1644 & 1.0000 & 4,296,989 & 10.6279 & 0.9931 & 3,985,141 & 9.2662 & 0.9863 \\
+Base & 3,985,142 & 10.2958 & 0.9863 & 3,985,142 & 10.2958 & 0.9863 & 3,985,142 & 10.2958 & 0.9863 \\
+$+10\%$ & 4,626,689 & 11.4963 & 0.9680 & 3,978,887 & 9.9593 & 0.9782 & 3,994,591 & 11.3254 & 0.9863 \\
+$+20\%$ & 5,035,115 & 12.8915 & 0.9630 & 4,083,819 & 10.1174 & 0.9863 & 3,994,590 & 12.3550 & 0.9863 \\
+\hline
+\end{tabular}
+\end{table}
+
+%% FIX: the coverage sentence had a broken clause ("it holds at 1.0000 when
+%% demand falls, However, it falls to ...") and the +10% case was omitted.
+The three objectives respond most strongly to the demand experiments, and the response is asymmetric. Figure \ref{mc_demand} shows that a 10\% increase in demand adds 16.1\% to the network cost, whereas a 10\% decrease saves only 3.5\%, since the opened facilities remain committed and only procurement and transport relax. The corruption index rises with demand at more than a one-to-one rate, gaining 11.7\% at $+10\%$ and 25.2\% at $+20\%$, as the additional doses are channeled through partners carrying higher transactional risk. Figure \ref{ml_demand} shows that the guaranteed coverage moves in the opposite direction to cost: it reaches 1.0000 when demand falls by 10\% or by 20\%, and declines to 0.9680 at $+10\%$ and 0.9630 at $+20\%$, because serving the higher demand in full would require capacity beyond that of the network the compromise selects.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth, viewport=0 250 595 600, clip]{mc_demand.pdf}
+  \caption{Percentage change in cost $Z_1$, corruption index $Z_2$}
+  \label{mc_demand}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth, viewport=0 250 595 600, clip]{ml_demand.pdf}
+  \caption{Percentage change in mitigation level that is coverage $\lambda$}
+  \label{ml_demand}
+\end{figure}
+%% FIX: this paragraph is rewritten. Three errors were corrected:
+%%  (i) the claim of "a mitigation level of 1.0000" at +20% capacity contradicted
+%%      Table 5, which reports 0.9863 (the baseline value);
+%%  (ii) 9.9593 is the lowest corruption value in the CAPACITY block only, not in
+%%      the whole study (the demand and index blocks both contain lower values);
+%%  (iii) the -10% and -20% cases had no explicit labels, leaving "it pays 7.8%
+%%      more" without an antecedent. The 10^-6 relative gap has also been replaced
+%%      by the tolerances actually used.
+The sensitivity of the objectives to changes in supply capacity between $-20\%$ and $+20\%$ is presented in Fig.~\ref{mc_sc} and Fig.~\ref{ml_sc}. Capacity does not enter any objective function; it appears only in the constraints, so changing it moves the feasible region and the payoff bounds, and the compromise re-balances the three objectives rather than following a simple cost slope. The response is therefore non-monotone. At $-20\%$ the upstream capacity falls to 248,000 doses per period, about 0.97 times demand, which is not enough to reach every hospital in full regardless of spending: the guaranteed coverage drops to 0.9624 at a cost 4.9\% above the baseline. At $-10\%$ the model pays 7.8\% more than the baseline, the largest cost change in this block, and accepts 3.2\% more corruption, in exchange for raising the guaranteed coverage to 0.9931. At $+10\%$ the additional capacity allows cheaper and cleaner partners to carry more of the flow: the cost falls by 0.2\% and the corruption index reaches 9.9593, the lowest value in this block, while the guaranteed coverage settles at 0.9782. At $+20\%$ the coverage returns to the baseline value of 0.9863 at a cost 2.5\% above the baseline. The non-monotone cost pattern is not a computational artifact: the payoff bounds were re-computed at each perturbation level and every solve terminated at a zero relative gap under the integer tolerance of $10^{-5}$. Capacity sets the level of demand that can be guaranteed, while cost and corruption adjust around it.
+\begin{figure}[htbp]
+  \centering
+   \includegraphics[width=0.85\textwidth, viewport=0 250 595 600, clip]{mc_sc.pdf}
+  \caption{Percentage change in cost $Z_1$, corruption index $Z_2$}
+  \label{mc_sc}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+ \includegraphics[width=0.85\textwidth, viewport=0 250 595 600, clip]{ml_sc.pdf}
+  \caption{Percentage change in mitigation level that is coverage $\lambda$}
+  \label{ml_sc}
+\end{figure}
+The sensitivity of the objectives to the corruption index of all the entities is shown in Fig.~\ref{mc_ci} for the case of varying the corruption index from $-20\%$ to $+20\%$ for all the entities. This parameter does not affect the network design: the cost varies by at most $0.24\%$ over the sweep, the mitigation level remains at 0.9863 to four decimal places in each run, and the corruption index changes by the same factor as the perturbation, from 8.2366 at $-20\%$ to 12.3550 at $+20\%$; that is, 0.8 and 1.2 times the baseline value of 10.2958. This is because of structure. The index is only included in the second objective, linearly, and has no impact on the cost function or any constraint, which means that no uniform rescaling of all indices can alter the relative attractiveness of any partner: the optimizer opens the same suppliers, donors and distribution centres in each run, and the reported corruption score is the baseline score scaled by the same factor. The residual cost variation of at most 0.24\% across the sweep arises because the payoff bounds, and hence the membership functions, are re-computed at each perturbation level, which shifts the compromise slightly within the same opened set. This insensitivity is a convenient property because the corruption indices are not measured constants, and the compromise plan is stable in its opened set if the indices are over- or under-estimated by 20\% or less, though a change that affects the indices differently for different entities could reorder the partners and is a natural extension of this analysis.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth, viewport=0 250 595 600, clip]{mc_ci.pdf}
+  \caption{Percentage change in Corruption Index}
+  \label{mc_ci}
+\end{figure}
+%% FIX: the empty subsection "Monte Carlo sensitivity analysis" has been removed.
+%% It contained no text and no results.
+\section{Results and Discussion}
+\label{s9}
+\noindent
+%% FIX: the solver description now matches the solver log. The instance was
+%% solved by intlinprog, which applies a linear relaxation, cuts and rounding
+%% heuristics before branching; the run closed at 27 nodes in 2.60 s at a zero
+%% relative gap. The previously reported relative gap of 10^-6 was not used.
+The data explained in the application are used in the mathematical model developed in Section \ref{s4}, and the double-valued refined neutrosophic hesitant fuzzy optimization of Section \ref{s6} is used to solve the model in MATLAB on a PC with a 2 GHz processor and 16 GB RAM. The crisp model was solved with the \texttt{intlinprog} mixed-integer solver, which applies a linear relaxation together with Gomory, implication and flow-cover cuts and rounding heuristics before branch and bound; the instance closed at 27 explored nodes in 2.60 seconds at a zero relative gap, with an integer tolerance of $10^{-5}$. The pay-off table, bounds, and crisp formulation obtained during the solution are given in Eqs. \ref{e1}--\ref{e75b}.
+
+%% FIX: added the uniformity of the guarantee (every hospital receives exactly
+%% 12,575 doses in every one of the three periods, verified from the optimal
+%% flows) and corrected the identification of the binding pressures.
+The proposed method reaches a compromise plan with a total network cost of $3,985,142$, a corruption index of $10.2958$, and a coverage level of $\lambda = 0.9863$. The coverage variable $\lambda$ is the guaranteed minimum coverage of the model: the mitigation objective maximizes $\lambda$, while constraint Eq. \ref{eq:lambda} forces the delivery to every hospital in every period to be at least $\lambda$ times its demand. Thus, this value, $0.9863$, has a worst-case reading, not an average one. It provides a minimum guarantee of at least $12,575$ of $12,750$ doses to the least-served hospital in the least-served period, and in the optimal solution the guarantee is attained uniformly: every one of the twenty hospitals receives exactly $12,575$ doses in each of the three periods, so the reported coverage is a floor that binds everywhere rather than at a single facility. The plan consumes less than $0.3$ per cent of the $1.5$ billion budget, which shows that the binding pressures here are the corruption objective and the storage capacity of the opened regional centres, not the budget.\\
+The four membership grades for this solution are: $\alpha = 0.6695$, $\beta = 0.1961$, $\gamma = 0.2937$ and $\delta = 0$, which are summarized in Table \ref{tab:mg}. The graphical representation of each grade is shown in Figure \ref{fig:grades}. \\
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth, viewport=0 250 595 500, clip]{grades.pdf}
+\caption{Membership grades of proposed method}
+\label{fig:grades}
+\end{figure}
+\begin{table}[htbp]
+\centering
+\caption{Optimal membership grades obtained by the DVRNHF optimization.}
+\label{tab:mg}
+\begin{tabular}{llc}
+\toprule
+Grade & Description & Value \\
+\midrule
+$\alpha$ & Truth                          & 0.6695 \\
+$\beta$  & Falsity                        & 0.1961 \\
+$\gamma$ & Indeterminacy toward truth     & 0.2937 \\
+$\delta$ & Indeterminacy toward falsity   & 0.0000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In a double valued refined neutrosophic setting there are four independent memberships, not four weights: $\alpha$ is the truth grade, $\beta$ the falsity grade, $\gamma$ the indeterminacy leaning towards truth, and $\delta$ the indeterminacy leaning towards falsity. The decision maker's satisfaction level $\alpha = 0.6695$ is placed two-thirds of the way towards the ideal, while the falsity grade $\beta= 0.1961$ indicates the small degree of failure of the plan, held below $\alpha$ by the ordering constraints. The analytical weight comes from the indeterminacy leaning towards truth grade $\gamma = 0.2937$, which represents the uncertainty that remains because the corruption indices and the demand numbers are expert estimates rather than measured constants. The indeterminacy leaning towards falsity grade $\delta$ equals zero, indicating that the plan has not been pushed to the extent that a better performance of one goal directly conflicts with the other two; the compromise lies in the interior of the region where all three goals still coexist. A simple fuzzy model would give all four of these readings the same satisfaction number and would fail to distinguish between a decision that is just ``good enough'' and one that is assertive and sensitive to uncertain data. The separate hesitation grade $\gamma$ tells the planner how much of the plan's quality depends on the corruption estimates being correct.\\
+%% FIX: constraint (7a) and (7b) are upper bounds and therefore PERMIT, rather
+%% than REQUIRE, an unopened facility to release its pre-positioned stock. The
+%% regional release is governed by (7b), not (7a). The duplicated RDC6 sentence
+%% has been deleted, and the mechanism that sustains 251,500 doses in periods 2
+%% and 3 (RDC1's inventory drawdown) is now stated.
+The optimal network opens suppliers $1$, $2$, $4$, $6$, and $7$, all six donors, the national distribution centre NDC1, and regional distribution centres $1$ through $5$, and the configuration is held fixed across all three periods, as listed in Table \ref{tab:of}. Suppliers $3$ and $5$ are not selected, but for different reasons, and the distinction is informative. Supplier $5$ is dominated outright: from Table \ref{tab:supplier} it carries both the highest opening cost ($70,000$) and the highest corruption index ($0.30$) of all seven candidates, and at the residual volume the network requires it is more expensive and more exposed than supplier $7$, which is opened in its place. Supplier $3$ is the more revealing case. Its unit price of $4.8$ dollars per dose is below that of suppliers $6$ and $7$ ($5.7$ and $6.0$), and its opening cost of $50,000$ is below that of supplier $4$ ($60,000$), which is opened; substituting supplier $3$ for supplier $6$ over the horizon would in fact reduce the combined opening and procurement cost by approximately $51,400$ dollars. It is excluded because its corruption index of $0.25$ raises the second objective by roughly $0.216$ index units over the same flow, and, measured against the payoff ranges reported in Section \ref{s6}, that penalty is about five times the normalized value of the cost saving. Supplier $3$ is therefore eliminated by the governance objective rather than by price, which is the selection effect the corruption term was formulated to produce. Supplier $7$ is opened only for a small residual quantity, rising from $1,300$ doses in the first period to $7,000$ in the later periods, to close the gap left by the cheaper suppliers running at capacity. Only NDC1 is opened at the national tier. A single centre with sufficient capacity is enough to feed the entire regional network under the cost-minimizing routing, and opening one centre rather than four concentrates the national-tier corruption exposure in a single facility that can be monitored closely. The three unopened centres carry no set-up cost, no structural corruption charge and no holding cost, but constraint \ref{e4.44a} permits them to release the $4,700$ doses pre-positioned at them before the horizon began, which the solution does in the first period. That release, together with NDC1's own opening stock of $1,000$ doses and the $244,300$ doses received from suppliers and donors, makes up the $250,000$ doses moved to the regional tier in period 1 (Table \ref{tab:11}). From period 2 onward the flow is entirely NDC1's. The same mechanism applies at the regional tier: RDC6 is not opened, but constraint \ref{e4.44b} permits it to release the $1,000$ doses pre-positioned there, which it ships in period 1. Together with the pre-positioned stock at the other regional centres and the $250,000$ doses received from NDC1, this sustains the $251,500$ doses delivered to hospitals in period 1, that is $12,575$ to each. In periods 2 and 3 the same total is reached by a different route: NDC1 again delivers $250,000$ doses and RDC1 draws the remaining $1,500$ doses from the stock it carried forward, so the guarantee of $12,575$ doses per hospital is met in every period of the horizon.\\
+\begin{table}[htbp]
+\centering
+\caption{Facilities opened in the DVRNHF solution (fixed across all periods).}
+\label{tab:of}
+\begin{tabular}{ll}
+\toprule
+Facility type & Opened \\
+\midrule
+Suppliers                     & U1, U2, U4, U6, U7 \\
+Donors                        & V1, V2, V3, V4, V5, V6 \\
+National distribution centres & NDC1 \\
+Regional distribution centres & RDC1, RDC2, RDC3, RDC4, RDC5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+%% FIX: the sentence cited Section 4.7 twice and was circular.
+The two binary decisions are separated in Table \ref{tab:activation}. The variable $W$ records which facilities are entered over the horizon and the variable $Y$ records which of them are active in each period. The linking constraints of Section \ref{subsec:opening} tie $Y$ to $W$, so the set-up cost and the structural corruption charge are incurred once at entry, and no facility is opened and then left unused: every opened facility is active in all three periods. The solution therefore provides a single set of partners for the whole horizon and runs each at a fixed utilization, which is more appropriate for a standing immunization programme than a network that re-tenders its suppliers every period.\\
+%% FIX: the redundant donor sentence has been merged, and the binding constraint
+%% is now identified correctly. Upstream is NOT binding: the opened partners can
+%% supply 265,000 doses per period (115,000 from the five opened suppliers plus
+%% 150,000 from the donors) while only 250,000 are used, and U7 alone runs 15,000
+%% doses below capacity. The five opened RDCs store exactly 250,000 doses and are
+%% fully used in every period, which is the binding limit.
+NDC1 receives flow from two upstream channels. Suppliers U1, U2, U4 and U6 run at capacity and together deliver $93,000$ doses per period, while U7 adds a residual that rises from $1,300$ doses in period 1 to $7,000$ doses thereafter, as shown in Table \ref{tab:supplier_flow}. All six donors also run at capacity, supplying their full $150,000$ doses per period, as shown in Table \ref{tab:donor_flow}. The two channels together deliver $250,000$ doses per period against a nominal period demand of $255,000$, with the bulk carried by the donor agencies and the balance by the private suppliers at least cost. The limit is not upstream availability: the opened partners could supply $265,000$ doses per period, and supplier U7 alone operates $15,000$ doses per period below its capacity. What binds is the storage of the five opened regional centres, which totals exactly $250,000$ doses and is fully used in every period. It is this limit, and not the budget, that holds the guaranteed coverage below unity.\\
+\begin{table}[htbp]
+\centering
+\caption{Opening ($W$) and period activation ($Y$) of each facility in the
+DVRNHF solution.}
+\label{tab:activation}
+\begin{tabular}{lcccc}
+\toprule
+Facility & Opened ($W$) & Active Period 1 & Active Period 2 & Active Period 3 \\
+\midrule
+U1          & 1 & 1 & 1 & 1 \\
+U2          & 1 & 1 & 1 & 1 \\
+U4          & 1 & 1 & 1 & 1 \\
+U6          & 1 & 1 & 1 & 1 \\
+U7          & 1 & 1 & 1 & 1 \\
+V1--V6      & 1 & 1 & 1 & 1 \\
+NDC1        & 1 & 1 & 1 & 1 \\
+RDC1--RDC5  & 1 & 1 & 1 & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+%% FIX: the previous explanation of RDC6 ("the other five have the capacity to
+%% meet hospital demand at lower opening cost") is contradicted by Table 4:
+%% RDC6 has the LARGEST storage (58,000) and an opening cost (240,000) BELOW that
+%% of RDC4 (270,000) and RDC5 (300,000), both of which are opened. What
+%% distinguishes RDC6 is the highest corruption index of the regional tier (0.15).
+%% This makes RDC6 a second, independent instance of the selection effect.
+The regional flows are shown in Table \ref{tab:11}. NDC1 supplies all five opened regional centres in every period, and each receives exactly its storage capacity. RDC6 is left closed even though it offers the largest storage of the six candidates ($58,000$ doses) at an opening cost of $240,000$, below that of RDC4 ($270,000$) and RDC5 ($300,000$), both of which are opened; what distinguishes it is the highest corruption index of the regional tier ($0.15$). Opening RDC6 would relax the storage limit identified above, but the structural and transactional corruption charge attaching to that index, together with the additional opening cost, is not accepted by the compromise. This is the second point in the network, after supplier 3, at which the governance objective rather than price determines which facility enters. On the downstream side the opened centres deliver exactly $12,575$ doses to every hospital in every period, sustaining the maximized coverage level of $0.9863$. Figure \ref{fig:network1} shows the resulting network flows at each node.
+ \begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth, viewport=0 200 640 700, clip]{dataoutput.pdf}
+\caption{Optimal network flows in periods 2 and 3 (doses). The $1,500$ doses that RDC1 draws from carried inventory in each of these periods are not shown as an arc.}
+\label{fig:network1}
+\end{figure}
+\begin{table}[htbp]
+\centering
+\caption{Optimal flow from opened suppliers to NDC1 (doses per period).}
+\label{tab:supplier_flow}
+\begin{tabular}{lccc}
+\toprule
+Supplier & Period 1 & Period 2 & Period 3 \\
+\midrule
+U1 & 24\,000 & 24\,000 & 24\,000 \\
+U2 & 23\,000 & 23\,000 & 23\,000 \\
+U4 & 24\,000 & 24\,000 & 24\,000 \\
+U6 & 22\,000 & 22\,000 & 22\,000 \\
+U7 & 1\,300  & 7\,000  & 7\,000  \\
+\midrule
+Total & 94\,300 & 100\,000 & 100\,000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------- donors -> NDC1 ----------
+\begin{table}[htbp]
+\centering
+\caption{Optimal flow from opened donors to NDC1 (doses per period).}
+\label{tab:donor_flow}
+\begin{tabular}{lccc}
+\toprule
+Donor & Period 1 & Period 2 & Period 3 \\
+\midrule
+V1 & 26\,000 & 26\,000 & 26\,000 \\
+V2 & 26\,000 & 26\,000 & 26\,000 \\
+V3 & 26\,000 & 26\,000 & 26\,000 \\
+V4 & 24\,000 & 24\,000 & 24\,000 \\
+V5 & 24\,000 & 24\,000 & 24\,000 \\
+V6 & 24\,000 & 24\,000 & 24\,000 \\
+\midrule
+Total & 150\,000 & 150\,000 & 150\,000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Optimal flow from the national tier to the regional distribution centres (doses per period).}
+\label{tab:11}
+\begin{tabular}{llrrr}
+\toprule
+Regional DC & Source & Period 1 & Period 2 & Period 3 \\
+\midrule
+RDC1 & NDC1 & 40,300 & 45,000 & 45,000 \\
+     & NDC2 & 1,500 & 0 & 0 \\
+     & NDC3 & 2,000 & 0 & 0 \\
+     & NDC4 & 1,200 & 0 & 0 \\
+RDC2 & NDC1 & 48,000 & 48,000 & 48,000 \\
+RDC3 & NDC1 & 50,000 & 50,000 & 50,000 \\
+RDC4 & NDC1 & 52,000 & 52,000 & 52,000 \\
+RDC5 & NDC1 & 55,000 & 55,000 & 55,000 \\
+\midrule
+Total & & 250,000 & 250,000 & 250,000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+%% FIX: the text stated that "the national centre and the other regional centres
+%% hold no closing inventory"; Table 12 lists only the regional tier, so the
+%% national tier has been added as a row block and the caption widened.
+The inventory pattern in Table \ref{tab:inventory} supports the same reading. RDC1 closes period 1 holding 3,000 doses, which are drawn down to 1,500 in period 2 and to zero in period 3; these are the doses that make up the difference between the 250,000 received from NDC1 and the 251,500 delivered to hospitals in periods 2 and 3. The national centre and the other regional centres hold no closing inventory in any period. The plan therefore carries almost no idle stock, which is a desirable pattern for a vaccine programme, since holding a large buffer of a perishable cold-chain product is costly; the model reaches high coverage by moving doses through the network rather than by stockpiling them. The opened set is also stable across periods, so the one-time opening variables and the period activation variables do not oscillate, and the plan can be run as a standing network.
+\begin{table}[h]
+\centering
+\caption{Closing inventory at the national and regional distribution centres (doses).}
+\label{tab:inventory}
+\begin{tabular}{lrrr}
+\toprule
+Centre & Period 1 & Period 2 & Period 3 \\
+\midrule
+NDC1 & 0 & 0 & 0 \\
+NDC2--NDC4 & 0 & 0 & 0 \\
+\midrule
+RDC1 & 3,000 & 1,500 & 0 \\
+RDC2 & 0 & 0 & 0 \\
+RDC3 & 0 & 0 & 0 \\
+RDC4 & 0 & 0 & 0 \\
+RDC5 & 0 & 0 & 0 \\
+RDC6 & 0 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+To evaluate the performance of the proposed method, the same model is solved by two established approaches on the identical bounds of Section \ref{s6}: a hesitant fuzzy method \cite{Bharati:2018} carrying the same three decision-maker grades $\{1.00, 0.96, 0.92\}$, and Angelov's intuitionistic fuzzy method \cite{Angelov:1997} with its membership and non-membership functions. Table \ref{tab:dv-rnhfo} shows the compromise reached by each method, and Table \ref{tab:gap_comparison} shows the relative percentage gap of each objective and the total gap. The gap of objective $p$ is measured against the payoff range of Eq. \ref{eq70}, as $(Z_p - \breve{L}^T_p)/(\breve{U}^T_p-\breve{L}^T_p)$ for the two minimized objectives and $(\breve{U}^T_p - Z_p)/(\breve{U}^T_p-\breve{L}^T_p)$ for the maximized one, so that a smaller gap is better in every column.
+
+\begin{table}[htbp]
+\centering
+\caption{Optimal solutions obtained by the different optimization methods
+for the multi-period PPP vaccine distribution model.}
+\label{tab:dv-rnhfo}
+\begin{tabular}{lccc}
+\toprule
+Method & Cost $Z_1$ (\$) $\downarrow$ & Corruption $Z_2$ $\downarrow$ & Mitigation Level $Z_3$ ($\lambda$) $\uparrow$ \\
+\midrule
+Hesitant fuzzy                & 3\,941\,388 & 10.2304 & 0.9743 \\
+Intuitionistic fuzzy          & 5\,016\,094 & 10.5338 & 0.9970 \\
+\textbf{DVRNHF (proposed)}    & \textbf{3\,985\,142} & \textbf{10.2958} & \textbf{0.9863} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{Normalized gap (\%) of each objective and the total gap for each method}
+\label{tab:gap_comparison}
+\begin{tabular}{lcccc}
+\toprule
+Method & Cost gap & Corruption gap & Mitigation Level gap & \textbf{Total gap} \\
+\midrule
+Hesitant fuzzy                & 9.48  & 25.66 & 25.66 & 60.80 \\
+Intuitionistic fuzzy          & 31.25 & 32.96 & 2.96  & 67.17 \\
+\textbf{DVRNHF (proposed)}    & {10.36} & {27.23} & {13.73} & \textbf{51.32} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth, viewport=0 250 595 700, clip]{normalizedgap.pdf}
+\caption{Normalized gap of each Objective}
+\label{fig:gapfig}
+\end{figure}
+%% FIX: the sentence "The sixteen-point margin" is retained (67.17 - 51.32 = 15.85),
+%% and the duplicated figure label \label{fig:network} has been renamed to
+%% \label{fig:gapfig} because it collided with the network-flow figure above.
+Table \ref{tab:gap_comparison} shows that the total percentage gap of the DVRNHF method is 51.32, which is lower than the hesitant method at 60.80, and the intuitionistic fuzzy method at 67.17. The margin of almost sixteen points over the intuitionistic method is well outside any rounding tolerance, so the ordering reflects the methods themselves. Hence the DVRNHF optimization performs better than the other methods discussed in this paper. However, comparing the method with other approaches may give different results, and this comparison is limited to the present model and to the hesitant and intuitionistic methods considered here.\\
+
+The reason for the ranking is visible in the individual gap columns rather than in the total alone. The hesitant method keeps cost marginally below the proposed method, but it does so by letting the guaranteed coverage slip to 0.9743, which appears as a coverage gap of $25.66$. It economizes on the objective the programme values least and gives up ground on the one it exists to protect, namely the coverage floor that shields the worst-served hospital. The intuitionistic method does the opposite: it drives the guaranteed coverage to 0.9970, close to the ceiling, but pays for that last increment with a cost of $5,016,094$, a premium of almost 26 percent over the proposed plan, so its cost gap alone rises to 31.25.\\
+The proposed approach reaches a guaranteed coverage of 0.9863 at a cost below four million, and no single objective carries an extreme gap; the largest is the corruption gap of 27.23. \\
+%% FIX: the closing two sentences contradicted each other ("all the methods
+%% converge to the same few vertices" followed by "the richer representation keeps
+%% the compromise away from the corners"). Rewritten so that the vertex remark is
+%% a caveat on the size of the improvement rather than a claim about it.
+This balance is directly related to the four graded memberships. The optimization is carried out with respect to the satisfaction of truth, falsity, and the two indeterminacy grades rather than a single satisfaction grade. That enables the model to treat a high coverage floor and a low cost as partly true, partly undetermined and partly false at the same time, and to converge on the plan with the strongest joint reading of the four. Adding a hesitant grade to a single membership, or a non-membership function as in the intuitionistic model, does not by itself produce a consistent improvement here, because both extensions still resolve the decision through one scalar trade-off. The improvement appears only when the uncertainty description is expanded to four graded memberships. The feasible region of this instance is tight, and all three methods select from a small set of vertices, so the margin should be read as the value of the richer representation on a constrained instance rather than as an upper bound on it; that is the contribution the double-valued refined neutrosophic hesitant fuzzy formulation makes to public--private vaccine distribution.
+\section{Conclusion}
+%% FIX: "Two features" preceded a list of four. RDC6 has been added as a second
+%% documented instance of the governance objective determining facility entry.
+This study shows how governance risk can be incorporated into a vaccine distribution model to affect partner selection directly, rather than merely rescaling the corruption scores that are reported. The resulting plan has a cost of $3,985,142$ dollars, a corruption index of $10.2958$, and a guaranteed coverage of $\lambda= 0.9863$, which delivers exactly $12,575$ of the $12,750$ doses demanded by each hospital in each period. Four features of the network trace back to the formulation itself. Supplier 5 is eliminated because it carries both the highest opening cost and the highest corruption index among the candidates. Supplier 3 is eliminated despite a unit price below two of the suppliers that are opened, because the corruption charge attaching to its index of $0.25$ outweighs the procurement saving of roughly $51,400$ dollars it would deliver. RDC6 is left closed despite offering the largest regional storage at an opening cost below that of two centres that are opened, because it carries the highest corruption index of the regional tier. And only one national centre is opened rather than four, so that exposure is concentrated in a single centre the programme can monitor. Protecting the weakest hospital depends on maximizing the guaranteed minimum rather than setting a service floor, and the comparison against the two established methods makes the difference visible: the hesitant fuzzy method costs less than the proposed plan only by allowing coverage to drop to 0.9743, whereas the intuitionistic method pays nearly 26 percent more for the last increment of coverage. The proposed method achieves a total normalized gap of 51.32 per cent compared to 60.80 and 67.17, and no individual objective carries an extreme gap, which is what four graded memberships provide over a single satisfaction grade. The double-valued refined neutrosophic hesitant fuzzy set combines two refinements that had developed separately, preserving the disagreement between experts while keeping the indeterminacy divided by direction. The benefit to a health ministry is a coverage figure that commits to the worst-served facility rather than averaging it away, together with a separate reading, $\gamma = 0.2937$ with $\delta=0$, of how much the plan relies on corruption estimates that nobody has measured. \\
+The major limitation is that the indices are static scalars that are shifted uniformly, which means that the stability reported here is a stability against error in scale rather than error in ranking, and the robustness of the selection mechanism to a re-ordering of the indices has not been tested. The structural weight $\theta$ is likewise held at $0.5$ throughout, so the balance between the two governance channels has not been varied. The model also omits shelf life and wastage, which matter for a cold-chain product even though the plan reported here carries almost no idle stock. The extensions of this work are to make the corruption index dependent on the investment in auditing, to sweep $\theta$ and to perturb the entities differently in order to observe whether the partners reorder, and to apply the method to slacker networks where other formulations do not converge on a few vertices.
+
+\section*{Declarations}
+\begin{itemize}
+%\item \textbf{Ethics approval and consent to participate}: The study received approval from board of faculty of sciences, International Islamic University Islamabad, Pakistan.
+\item \textbf{Funding}: The authors received no specific funding for this work.
+\item \textbf{Availability of data and material}: The data used to support this study are provided in the article and in Appendix \ref{app:data}.
+\item \textbf{Competing interests}: The authors declare no competing interests.
+\item \textbf{Authors' contributions}: All the authors contributed equally in the preparation of this article.
+\end{itemize}
+
+\section*{Abbreviations}
+
+\begin{align*}
+\mathit{PPP}     &: \text{Public--private partnership}\\
+\mathit{NDC}     &: \text{National distribution centre}\\
+\mathit{RDC}     &: \text{Regional distribution centre}\\
+\mathit{CI}      &: \text{Corruption index}\\
+\mathit{FS}      &: \text{Fuzzy set}\\
+\mathit{IFS}     &: \text{Intuitionistic fuzzy set}\\
+\mathit{HFS}     &: \text{Hesitant fuzzy set}\\
+\mathit{NS}      &: \text{Neutrosophic set}\\
+\mathit{SVNS}    &: \text{Single-valued neutrosophic set}\\
+\mathit{DVRNS}   &: \text{Double-valued refined neutrosophic set}\\
+\mathit{DVRNHFS} &: \text{Double-valued refined neutrosophic hesitant fuzzy set}\\
+\mathit{DVRNHF}  &: \text{Double-valued refined neutrosophic hesitant fuzzy (method)}\\
+\mathit{DVRNHFO} &: \text{Double-valued refined neutrosophic hesitant fuzzy optimization}\\
+\mathit{MOLP}    &: \text{Multi-objective linear programming}\\
+\mathit{MILP}    &: \text{Mixed-integer linear programming}\\
+\mathit{MINLP}   &: \text{Mixed-integer non-linear programming}
+\end{align*}
+
+
+\bibliographystyle{elsarticle-num}
+%\addbibresource{sbib}
+\bibliography{GFPbib}
+
+\appendix
+\section{Instance data}
+\label{app:data}
+
+\noindent All parameters below define the test instance solved in Section~\ref{s7}.
+Quantities are given per period unless stated otherwise.
+
+%% ------------------------------------------------------------
+\begin{table}[htbp]
+\centering
+\caption{Dimensions of the test instance.}
+\label{tab:A1}
+\begin{tabular}{lc}
+\toprule
+Set & Cardinality \\
+\midrule
+Suppliers $U$ & 7 \\
+Donors $V$ & 6 \\
+National distribution centres $M$ & 4 \\
+Regional distribution centres $R$ & 6 \\
+Hospitals $H$ & 20 \\
+Time periods $T$ & 3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ------------------------------------------------------------
+%% FIX: the minimum service level is phi in Section 3, Section 8 and Eq. (13);
+%% this table previously used varphi, which is now the decision-maker grade.
+\begin{table}[htbp]
+\centering
+\caption{Global scalar parameters.}
+\label{tab:A2}
+\begin{tabular}{llr}
+\toprule
+Symbol & Description & Value \\
+\midrule
+$\omega$ & Vehicle capacity (doses) & 10,000 \\
+$\pi_f$ & Fuel consumption rate (litre/km) & 0.035 \\
+$\pi_p$ & Fuel price (\$/litre) & 1.55 \\
+$\theta$ & Structural weight of the corruption index & 0.50 \\
+$\breve{Q}$ & Normalization quantity (doses) & 12,750 \\
+$\phi$ & Minimum service level & 0.90 \\
+$B$ & Total available budget (\$) & 1,500,000,000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Distances $d_{um}$ from suppliers to national distribution centres (km).}
+\label{tab:A6}
+\begin{tabular}{lrrrr}
+\toprule
+ & $NDC_1$ & $NDC_2$ & $NDC_3$ & $NDC_4$ \\
+\midrule
+$U_1$ & 120 & 130 & 140 & 135 \\
+$U_2$ & 110 & 125 & 130 & 128 \\
+$U_3$ & 100 & 120 & 115 & 110 \\
+$U_4$ & 130 & 135 & 140 & 125 \\
+$U_5$ & 105 & 115 & 120 & 118 \\
+$U_6$ & 125 & 130 & 135 & 140 \\
+$U_7$ & 110 & 120 & 130 & 125 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ------------------------------------------------------------
+\begin{table}[htbp]
+\centering
+\caption{Distances $d_{vm}$ from donors to national distribution centres (km).}
+\label{tab:A7}
+\begin{tabular}{lrrrr}
+\toprule
+ & $NDC_1$ & $NDC_2$ & $NDC_3$ & $NDC_4$ \\
+\midrule
+$V_1$ & 100 & 110 & 120 & 130 \\
+$V_2$ & 105 & 115 & 125 & 135 \\
+$V_3$ & 110 & 120 & 130 & 140 \\
+$V_4$ & 115 & 125 & 135 & 145 \\
+$V_5$ & 120 & 130 & 140 & 150 \\
+$V_6$ & 125 & 135 & 145 & 155 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ------------------------------------------------------------
+\begin{table}[htbp]
+\centering
+\caption{Distances $d_{mr}$ from national to regional distribution centres (km).}
+\label{tab:A8}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & $RDC_1$ & $RDC_2$ & $RDC_3$ & $RDC_4$ & $RDC_5$ & $RDC_6$ \\
+\midrule
+$NDC_1$ & 40 & 55 & 70 & 85 & 100 & 115 \\
+$NDC_2$ & 45 & 60 & 75 & 90 & 105 & 120 \\
+$NDC_3$ & 50 & 65 & 80 & 95 & 110 & 125 \\
+$NDC_4$ & 55 & 70 & 85 & 100 & 115 & 130 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ------------------------------------------------------------
+%% FIX: the 20-column distance table was unreadable at page width. It is now
+%% split into H1-H10 and H11-H20.
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Distances $d_{rh}$ from regional distribution centres to hospitals, $H_1$--$H_{10}$ (km).}
+\label{tab:A9a}
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+ & $H_{1}$ & $H_{2}$ & $H_{3}$ & $H_{4}$ & $H_{5}$ & $H_{6}$ & $H_{7}$ & $H_{8}$ & $H_{9}$ & $H_{10}$ \\
+\midrule
+$RDC_1$ & 15 & 20 & 25 & 30 & 28 & 35 & 22 & 18 & 14 & 30 \\
+$RDC_2$ & 22 & 25 & 29 & 35 & 30 & 32 & 36 & 27 & 23 & 28 \\
+$RDC_3$ & 24 & 28 & 32 & 37 & 33 & 31 & 30 & 35 & 38 & 32 \\
+$RDC_4$ & 28 & 30 & 35 & 40 & 37 & 39 & 36 & 42 & 45 & 38 \\
+$RDC_5$ & 35 & 38 & 42 & 45 & 41 & 43 & 40 & 44 & 48 & 42 \\
+$RDC_6$ & 24 & 27 & 30 & 33 & 29 & 31 & 28 & 32 & 36 & 30 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Distances $d_{rh}$ from regional distribution centres to hospitals, $H_{11}$--$H_{20}$ (km).}
+\label{tab:A9b}
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+ & $H_{11}$ & $H_{12}$ & $H_{13}$ & $H_{14}$ & $H_{15}$ & $H_{16}$ & $H_{17}$ & $H_{18}$ & $H_{19}$ & $H_{20}$ \\
+\midrule
+$RDC_1$ & 40 & 35 & 42 & 25 & 18 & 32 & 28 & 20 & 15 & 26 \\
+$RDC_2$ & 33 & 38 & 42 & 31 & 25 & 30 & 36 & 29 & 20 & 38 \\
+$RDC_3$ & 34 & 40 & 45 & 39 & 34 & 38 & 40 & 36 & 30 & 33 \\
+$RDC_4$ & 40 & 43 & 47 & 44 & 39 & 42 & 48 & 44 & 38 & 35 \\
+$RDC_5$ & 45 & 49 & 52 & 46 & 41 & 44 & 50 & 46 & 40 & 39 \\
+$RDC_6$ & 34 & 38 & 40 & 36 & 30 & 33 & 37 & 34 & 28 & 31 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ------------------------------------------------------------
+\begin{table}[htbp]
+\centering
+\caption{Hospital demand $D_{ht}$ (doses).}
+\label{tab:A10}
+\begin{tabular}{lrrrr}
+\toprule
+ & Period 1 & Period 2 & Period 3 & Horizon \\
+\midrule
+Each hospital ($H_1$--$H_{20}$) & 12,750 & 12,750 & 12,750 & 38,250 \\
+All hospitals & 255,000 & 255,000 & 255,000 & 765,000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ------------------------------------------------------------
+\begin{table}[htbp]
+\centering
+\caption{Capacity of the instance relative to demand.}
+\label{tab:A11}
+\begin{tabular}{lrr}
+\toprule
+Tier & Capacity per period (doses) & Ratio to demand \\
+\midrule
+Suppliers & 160,000 & 0.63 \\
+Donors & 150,000 & 0.59 \\
+Combined upstream & 310,000 & 1.22 \\
+Regional storage (all six RDCs) & 308,000 & 1.21 \\
+Regional storage (five opened RDCs) & 250,000 & 0.98 \\
+Hospital demand & 255,000 & 1.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ============================================================
+%%  END OF APPENDIX A
+%% ============================================================
+\end{document}

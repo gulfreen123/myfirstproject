@@ -289,3 +289,13 @@ def test_sensitivity_ranks_all_parameters(testbed, default_params):
     assert len(sens) == 22
     assert list(sens["rank"]) == list(range(1, 23))
     assert sens["pct_change"].is_monotonic_decreasing
+
+
+def test_small_behavioural_set_warns():
+    """A handful of behavioural samples must not be reported as a solid result."""
+    from vectri_calib.report import identifiability_from_scan
+    rng = np.random.default_rng(0)
+    tiny = rng.uniform(np.array(LOWER), np.array(UPPER), size=(4, N_PARAMS))
+    best = {p.symbol: p.default for p in PARAMETERS}
+    with pytest.warns(RuntimeWarning, match="behavioural samples"):
+        identifiability_from_scan(tiny, best)

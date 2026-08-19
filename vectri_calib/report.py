@@ -242,10 +242,30 @@ def monte_carlo_behavioural(
     return behavioural_set(samples, scores, tol=tol), scores
 
 
+MIN_BEHAVIOURAL = 30
+
+
 def identifiability_from_scan(
     behavioural: np.ndarray, best_params: dict[str, float]
 ) -> pd.DataFrame:
-    """Build the identifiability table from a Monte-Carlo behavioural set."""
+    """
+    Build the identifiability table from a Monte-Carlo behavioural set.
+
+    Emits a warning if the behavioural set is too small for the p05/p95
+    percentiles to mean anything. Uniform sampling in 22 dimensions is
+    extremely inefficient - almost every random vector fits badly - so a scan
+    can easily retain only a handful of samples out of thousands. If you see
+    the warning, raise n_samples, loosen tol, or use a proper sampler
+    (MCMC / ABC / adaptive GLUE) rather than trusting these numbers.
+    """
+    import warnings
+
+    if len(behavioural) < MIN_BEHAVIOURAL:
+        warnings.warn(
+            f"Only {len(behavioural)} behavioural samples (< {MIN_BEHAVIOURAL}). "
+            "Percentiles are unreliable; treat the verdicts as indicative only.",
+            RuntimeWarning, stacklevel=2,
+        )
     rows = []
     for j, spec in enumerate(PARAMETERS):
         vals = behavioural[:, j]

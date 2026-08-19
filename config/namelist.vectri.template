@@ -1,0 +1,59 @@
+! VECTRI namelist template for GA calibration.
+!
+! Every @symbol@ token is substituted by VectriRunner._write_namelist with
+! the value proposed by the genetic algorithm. Do not remove a token: the
+! runner raises KeyError if a calibrated parameter has no placeholder.
+!
+! ADAPT THIS FILE to your VECTRI build - namelist group names and any
+! non-calibrated settings vary by version. The 22 tokens below follow the
+! symbol naming in Dieng et al. (2026) Table 1.
+
+&vectri_params
+  ! --- Vector fecundity ---
+  neggmn               = @neggmn@,            ! Average number of laid eggs per batch that result in female vectors [eggs]
+  ! --- Biting and transmission probabilities (drives EIR) ---
+  rbiteratio           = @rbiteratio@,        ! Biting rate [day^-1]
+  rpthost2vect_I       = @rpthost2vect_I@,    ! Probability of transmission from infected host to vector [-]
+  rpthost2vect_R       = @rpthost2vect_R@,    ! Probability of transmission from recovered (R) host to vector [-]
+  rptvect2host         = @rptvect2host@,      ! Probability of transmission from vector to host [-]
+  rbitehighrisk        = @rbitehighrisk@,     ! Ratio of rate of bites for high risk to low risk hosts [-]
+  ! --- Human immunity and parasite clearance ---
+  rhostclear           = @rhostclear@,        ! Clearance rate (timescale) for non-immune adults [days]
+  rimmune_gain_eira    = @rimmune_gain_eira@, ! Annual EIR required to gain full immunity [infectious bites person^-1 year^-1]
+  rimmune_loss_tau     = @rimmune_loss_tau@,  ! e-folding timescale for immunity loss [days]
+  ! --- Larval habitat and hydrology (WRF-Hydro coupling point) ---
+  rrainfall_factor     = @rrainfall_factor@,  ! Rainfall scaling factor for breeding-site water [-]
+  rbiocapacity         = @rbiocapacity@,      ! Maximum larval biomass per m2 of suitable water body [m^-2]
+  rlarv_flushmin       = @rlarv_flushmin@,    ! Minimal daily larval survival (L1) rate after intense rainfall [-]
+  rlarv_flushtau       = @rlarv_flushtau@,    ! e-folding factor for larval decay from flushing by rainfall [mm day^-1]
+  ! --- Larval survival: predation and thermal ---
+  rlarvsurv            = @rlarvsurv@,         ! Base daily survival rate due to predation events [day^-1]
+  rlarv_tmax           = @rlarv_tmax@,        ! Maximum temperature for larvae survival [degC]
+  rlarv_tmin           = @rlarv_tmin@,        ! Minimum temperature for larvae survival [degC]
+  ! --- Aquatic development timing ---
+  rlarv_eggtime        = @rlarv_eggtime@,     ! Time for egg hatching [days]
+  rlarv_pupaetime      = @rlarv_pupaetime@,   ! Time for pupal stages [days]
+  ! --- Gonotrophic cycle (degree-day) ---
+  rtgono               = @rtgono@,            ! Threshold temperature for gonotrophic cycle (egg development in vector) [degC]
+  dgono                = @dgono@,             ! Degree-days to complete a full gonotrophic cycle [degC day]
+  ! --- Sporogonic cycle (degree-day) ---
+  rtsporo              = @rtsporo@,           ! Minimum temperature threshold for sporogonic cycle (parasite development in vector) [degC]
+  dsporo               = @dsporo@,            ! Degree-days to complete a full sporogonic cycle [degC day]
+/
+
+&vectri_intervention
+  ! ITN compartment (Dieng et al. Eqs. 1-5).
+  ! 1 = diagnostic (coverage read directly from input field - what the
+  !     paper used, since observed KEMRI-CDC coverage was available)
+  ! 2 = prognostic (coverage evolves with decay times tau / tau_treat)
+  itn_mode             = 1,
+  rtreatratio          = 0.8,        ! fraction of nets treated
+  tau                  = 1095.0,     ! bednet coverage lifespan [days]
+  tau_treat            = 365.0,      ! insecticide effectiveness lifespan [days]
+  rbite_night          = 0.85,       ! night-biting fraction, Eq. 5
+/
+
+&vectri_io
+  forcing_file         = 'forcing.csv',
+  output_file          = 'vectri_output.csv',
+/
